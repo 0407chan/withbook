@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "deploy": "rm -rf docs && npm run build && npx next export -o ../server/public"
+    "deploy": "rm -rf docs && npm run build && npx next export -o ../backend/public"
   },
   "dependencies": {
     "@types/styled-components": "^5.1.7",
