@@ -18,14 +18,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: frontend build Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
         
-    - run: cd frontend
-    - run: npm i
-    - run: npm run deploy --if-present
-    - run: cd ../backend
-    - run: npm i
-    - run: npm run build
+        working-directory: ./frontend
+        run: |
+          npm i
+          npm run deploy --if-present
+          
+          
+    - name: api-server build
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+        working-directory: ./backend
+        run: |
+          npm i
+          npm run build
