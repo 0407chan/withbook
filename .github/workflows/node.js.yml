@@ -24,7 +24,6 @@ jobs:
         npm i
         npm run deploy --if-present
  
-    - uses: actions/setup-node@v1
     - name: api-server build
       working-directory: ./backend
       run: |
