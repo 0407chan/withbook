@@ -29,4 +29,3 @@ jobs:
           cd backend
           npm i
           npm run build
-    - run: pm2 restart withbook
