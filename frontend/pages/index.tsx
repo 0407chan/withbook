@@ -20,7 +20,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <h1>hello world!!!! 가자!!</h1>
+        <h1>hello world!!!! 가자!! 이게 되네 ㅠㅠㅠ</h1>
       </div>
       <div className="index-title">welcome!!!</div>
     </Container>
