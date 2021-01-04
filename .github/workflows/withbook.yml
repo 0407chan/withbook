@@ -26,7 +26,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: |
-          cd backend2
+          cd backend
           npm i
           npm run build
-    - run: pm2 restart withbook
