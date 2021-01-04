@@ -33,3 +33,4 @@ jobs:
           cd backend2
           npm i
           npm run build
+    - run: pm2 restart withbook
