@@ -6,7 +6,7 @@ import express from 'express'
 import morgan from 'morgan'
 import router from './routes'
 const app = express()
-const port = 3000
+const port = 3010
 
 app.use(morgan('dev'))
 app.use(cookieParser())
