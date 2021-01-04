@@ -26,10 +26,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: |
-          cd frontend
-          npm i
-          npm run deploy
-    - run: |
           cd backend2
           npm i
           npm run build
