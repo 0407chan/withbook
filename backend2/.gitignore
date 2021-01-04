@@ -1,0 +1,15 @@
+node_modules
+dist
+.DS_Store
+
+# Parcel
+.cache
+
+# Database
+*.db
+*.sqlite
+
+.env
+
+build
+scripts
