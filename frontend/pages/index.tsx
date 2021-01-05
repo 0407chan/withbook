@@ -36,7 +36,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <h1>hello world!!!! 가자!! 이게 되네 ㅠㅠㅠ</h1>
+        <h1>hello world!!!! 리코일 적용</h1>
       </div>
       <input
         ref={bookNameInput}
