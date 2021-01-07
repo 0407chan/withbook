@@ -5,9 +5,11 @@ import { format } from 'date-fns'
 import express from 'express'
 import morgan from 'morgan'
 import router from './routes'
+import cors from 'cors'
 const app = express()
 const port = 3010
 
+app.use(cors())
 app.use(morgan('dev'))
 app.use(cookieParser())
 
