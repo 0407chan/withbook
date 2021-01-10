@@ -30,14 +30,20 @@ jobs:
           cd backend
           npm install
           npm run build
-
+      
       - name: Create env file
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }
+          DB_USER: ${{ secrets.DB_USER }
+          DB_NAME: ${{ secrets.DB_NAME }
+          DB_PASS: ${{ secrets.DB_PASS }
+        
         run: |
           cd backend
           touch .env
-          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-          echo DB_USER=${{ secrets.DB_USER }} >> .env
-          echo DB_NAME=${{ secrets.DB_NAME }} >> .env
-          echo DB_PASS=${{ secrets.DB_PASS }} >> .env
+          echo DB_HOST= $DB_HOST >> .env
+          echo DB_USER= $DB_USER >> .env
+          echo DB_NAME= $DB_NAME >> .env
+          echo DB_PASS= $DB_PASS >> .env
           cat .env
  
