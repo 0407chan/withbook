@@ -20,7 +20,6 @@ app.use(
 )
 
 app.use(express.static(appRootPath.resolve('/public')))
-
 app.use(router)
 
 app.listen(port, () => {
