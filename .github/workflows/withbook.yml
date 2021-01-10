@@ -33,10 +33,10 @@ jobs:
       
       - name: Create env file
         env:
-          DB_HOST: ${{ secrets.DB_HOST }
-          DB_USER: ${{ secrets.DB_USER }
-          DB_NAME: ${{ secrets.DB_NAME }
-          DB_PASS: ${{ secrets.DB_PASS }
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PASS: ${{ secrets.DB_PASS }}
         
         run: |
           cd backend
