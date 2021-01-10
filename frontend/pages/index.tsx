@@ -93,6 +93,7 @@ export default function Home() {
   }
 
   useEffect(() => {
+    console.log(window.location.href)
     initBook.current()
   }, [])
   return (
