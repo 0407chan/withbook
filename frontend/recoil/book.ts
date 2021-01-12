@@ -1,10 +1,7 @@
 import { atom, selector } from 'recoil'
-import { Book } from '../types'
-
-export const bookListState = atom<Book[]>({
+import { BookType } from '../types'
+import { DUMMY_BOOK } from '../config'
+export const bookListState = atom<BookType[]>({
   key: 'bookListState',
-  default: [
-    { id: 1, title: '에이트' },
-    { id: 2, title: '이기적유전자' }
-  ]
+  default: DUMMY_BOOK
 })
