@@ -35,12 +35,10 @@ export const addBook = async (req: Request, res: Response) => {
 
   try {
     const insertRes = await dbConnect.query<ResultSetHeader>(query)
-    const newBook: Book = {
-      id: insertRes[0].insertId,
-      title: book.title
-    }
+    const insertQuery = `select * from withbook.book where id = ${insertRes[0].insertId}`
+    const newBook = await dbConnect.query(insertQuery)
     dbConnect.release()
-    res.json(newBook)
+    res.json(newBook[0])
   } catch {
     const insertError = 'insert error'
     res.json(insertError)

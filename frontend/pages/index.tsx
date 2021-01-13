@@ -34,7 +34,7 @@ export default function Home() {
   const addNewBook = async () => {
     if (bookNameInput.current.value === '') return
     const newBook = await API.Book.addBook({ title: bookName.substr(0, 45) })
-    setBookList([...bookList, newBook])
+    setBookList([...bookList, newBook[0]])
     bookNameInput.current.value = ''
     setBookName('')
   }
