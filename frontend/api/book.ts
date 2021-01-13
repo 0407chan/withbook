@@ -9,7 +9,6 @@ export const fetchAllBooks = async () => {
 }
 
 export const fetchBook = async (id: number) => {
-  console.log(id)
   const res = await axios.get<BookType>(`${API_SERVER}/api/v1/book/${id}`)
   return res.data
 }
@@ -19,7 +18,7 @@ export const addBook = async (newBook: BookAddType) => {
   return res.data
 }
 export const deleteBook = async (id: number) => {
-  const res = await axios.delete<number>(`${API_SERVER}/api/v1/book?id=${id}`)
+  const res = await axios.delete<number>(`${API_SERVER}/api/v1/book/${id}`)
 
   return res.data
 }

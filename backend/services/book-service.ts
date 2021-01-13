@@ -2,7 +2,7 @@ import { pool } from '../utils/db-connection-handler'
 import { Request, Response } from 'express'
 import { Book, BookAddType } from '../dto/book.dto'
 import { ResultSetHeader } from 'mysql2/promise'
-
+import { format } from 'date-fns'
 export const getAllBook = async (req: Request, res: Response) => {
   const dbConnect = await pool.getConnection()
   const query = `select * from withbook.book`
@@ -26,7 +26,12 @@ export const getBook = async (req: Request, res: Response) => {
 export const addBook = async (req: Request, res: Response) => {
   const dbConnect = await pool.getConnection()
   const book = req.body as BookAddType
-  const query = `insert into withbook.book(id,title) values(null,'${book.title}')`
+  const query = `insert into withbook.book(id,title,createdAt,updatedAt,image) values(null,'${
+    book.title
+  }','${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}','${format(
+    new Date(),
+    'yyyy-MM-dd HH:mm:ss'
+  )}','')`
 
   try {
     const insertRes = await dbConnect.query<ResultSetHeader>(query)
@@ -44,15 +49,15 @@ export const addBook = async (req: Request, res: Response) => {
 
 export const deleteBook = async (req: Request, res: Response) => {
   const dbConnect = await pool.getConnection()
-  const bookId = Number(req.query.id)
+  const id = Number(req.params.id)
 
-  const query = `delete from withbook.book where id = ${bookId}`
+  const query = `delete from withbook.book where id = ${id}`
 
   try {
     const queryRes = await dbConnect.query<ResultSetHeader>(query)
     dbConnect.release()
     console.log(queryRes)
-    res.json(bookId)
+    res.json(id)
   } catch {
     const insertError = -1
     res.json(insertError)

@@ -4,7 +4,7 @@ export type BookType = {
   createdAt: string
   updatedAt: string
   image?: string
-  userId: number
+  userId?: number
   bookmarkList?: BookMark
 }
 

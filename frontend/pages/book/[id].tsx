@@ -14,20 +14,21 @@ const Container = styled.div`
   background-color: #eeeeee;
 `
 const BookRoom: React.FC = () => {
-  const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
   const [book, setBook] = useState<BookType>()
   const router = useRouter()
   let { id } = router.query
 
+  const deleteBookAction = async () => {
+    const res = await API.Book.deleteBook(Number(id))
+    router.push('/')
+  }
   const initBook = useRef(() => {})
   initBook.current = async () => {
     if (id === undefined) {
       id = window.location.href.split('book/')[1]
     }
-    console.log(id)
     const book = await API.Book.fetchBook(Number(id))
-    console.log(book)
-    // setBook(book[0])
+    setBook(book[0])
   }
   useEffect(() => {
     initBook.current()
@@ -36,13 +37,17 @@ const BookRoom: React.FC = () => {
     <Container>
       <div className="book-info">
         <div>
-          <h1>디테일!!! {id}</h1>
+          <h1>{book?.title}</h1>
         </div>
-        <div className="book-title">{book?.title}</div>
         <div className="book-updatedAd">{book?.updatedAt}</div>
         <div className="book-userId">{book?.userId}</div>
 
-        <button className="book-delete-button">X</button>
+        <button
+          className="book-delete-button"
+          onClick={() => deleteBookAction()}
+        >
+          X
+        </button>
       </div>
     </Container>
   )

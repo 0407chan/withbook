@@ -11,6 +11,6 @@ const router = Router({})
 router.get('/:id', getBook)
 router.get('/', getAllBook)
 router.post('/', addBook)
-router.delete('/', deleteBook)
+router.delete('/:id', deleteBook)
 
 export default router
