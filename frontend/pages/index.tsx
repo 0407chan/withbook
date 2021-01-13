@@ -1,15 +1,15 @@
-import Head from 'next/head'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { bookListState } from '../recoil/book'
+import Book from '../components/Book'
 import API from '../api'
-import { Book } from '../types'
+import type { BookType } from '../types'
 const Container = styled.div`
   display: flex;
   width: 100%;
-  padding: 40px;
-  height: 100vh;
+  max-width: 1320px;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   .index-title {
@@ -24,47 +24,11 @@ const Container = styled.div`
   .booklist-container {
     display: flex;
     flex-wrap: wrap;
-    width: 1100px;
-    margin: 20px;
-    .book-container {
-      display: flex;
-      background-color: #eeeeee;
-      justify-content: space-between;
-      border-radius: 5px;
-      width: 200px;
-      padding: 5px 10px;
-      margin: 10px;
-      &:hover {
-        background-color: #eeeeee;
-      }
-      .book {
-        display: flex;
-        width: 150px;
-        word-break: break-all;
-        justify-content: flex-start;
-      }
-      .book-delete-button {
-        display: flex;
-        height: 25px;
-        width: 27px;
-        margin-left: 5px;
-        background-color: #ffffff;
-        border-radius: 3px;
-        padding: 4px 8px;
-        color: #ff5252;
-        border: 1px solid #ff5252;
-        cursor: pointer;
-        transition: color 200ms ease, background-color 200ms ease;
-        &:hover {
-          color: #ffd3d3;
-          background-color: #ff5252;
-        }
-      }
-    }
+    width: 100%;
   }
 `
 export default function Home() {
-  const [bookList, setBookList] = useRecoilState(bookListState)
+  const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
   const [bookName, setBookName] = useState<string>('')
   const bookNameInput = useRef<HTMLInputElement>(null)
   const addNewBook = async () => {
@@ -79,13 +43,6 @@ export default function Home() {
     setBookName(newBookName)
   }
 
-  const deleteBookAction = async (id: number) => {
-    const res = await API.Book.deleteBook(id)
-    if (res > 0) {
-      const newBookList = bookList.filter((book) => book.id !== id)
-      setBookList(newBookList)
-    }
-  }
   const initBook = useRef(() => {})
   initBook.current = async () => {
     const res = await API.Book.fetchAllBooks()
@@ -97,10 +54,6 @@ export default function Home() {
   }, [])
   return (
     <Container>
-      <Head>
-        <title>WithBook</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <div>
         <h1>WithBook</h1>
       </div>
@@ -114,17 +67,7 @@ export default function Home() {
       </div>
       <div className="booklist-container">
         {bookList.map((book) => {
-          return (
-            <div className="book-container" key={book.id}>
-              <div className="book">{book.title}</div>
-              <button
-                className="book-delete-button"
-                onClick={() => deleteBookAction(book.id)}
-              >
-                X
-              </button>
-            </div>
-          )
+          return <Book key={book.id} book={book} />
         })}
       </div>
     </Container>
