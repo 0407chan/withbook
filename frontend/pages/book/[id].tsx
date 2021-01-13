@@ -5,7 +5,7 @@ import { BookType } from '../../types'
 import { bookListState } from '../../recoil/book'
 import { useRouter } from 'next/router'
 import { Maybe } from '../../components/common/Maybe'
-
+import API from '../../api'
 const Container = styled.div`
   display: flex;
   width: 100%;
@@ -17,13 +17,17 @@ const BookRoom: React.FC = () => {
   const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
   const [book, setBook] = useState<BookType>()
   const router = useRouter()
-  const { id } = router.query
+  let { id } = router.query
 
   const initBook = useRef(() => {})
-  initBook.current = () => {
+  initBook.current = async () => {
+    if (id === undefined) {
+      id = window.location.href.split('book/')[1]
+    }
     console.log(id)
-    const book = bookList.filter((book) => book.id === Number(id))
-    setBook(book[0])
+    const book = await API.Book.fetchBook(Number(id))
+    console.log(book)
+    // setBook(book[0])
   }
   useEffect(() => {
     initBook.current()

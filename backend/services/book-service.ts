@@ -12,6 +12,17 @@ export const getAllBook = async (req: Request, res: Response) => {
   return
 }
 
+export const getBook = async (req: Request, res: Response) => {
+  const id = Number(req.params.id)
+  // console.log(id)
+  const dbConnect = await pool.getConnection()
+  const query = `select * from withbook.book where id = ${id}`
+  const resQuery = await dbConnect.query(query)
+  dbConnect.release()
+  res.json(resQuery[0])
+  return
+}
+
 export const addBook = async (req: Request, res: Response) => {
   const dbConnect = await pool.getConnection()
   const book = req.body as BookAddType
