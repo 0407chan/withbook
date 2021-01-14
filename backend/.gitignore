@@ -11,5 +11,5 @@ dist
 
 .env
 
+public
 build
-scripts
