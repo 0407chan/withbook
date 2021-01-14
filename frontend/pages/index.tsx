@@ -31,9 +31,18 @@ export default function Home() {
   const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
   const [bookName, setBookName] = useState<string>('')
   const bookNameInput = useRef<HTMLInputElement>(null)
+
   const addNewBook = async () => {
     if (bookNameInput.current.value === '') return
     const newBook = await API.Book.addBook({ title: bookName.substr(0, 45) })
+    setBookList([...bookList, newBook[0]])
+    bookNameInput.current.value = ''
+    setBookName('')
+  }
+
+  const searchBookAction = async () => {
+    if (bookNameInput.current.value === '') return
+    const newBook = await API.Book.searchBookOnNaver(bookName)
     setBookList([...bookList, newBook[0]])
     bookNameInput.current.value = ''
     setBookName('')
@@ -64,6 +73,7 @@ export default function Home() {
           placeholder="책 제목을 입력해주세요"
         ></input>
         <button onClick={() => addNewBook()}>새 책 추가하기</button>
+        <button onClick={() => searchBookAction()}>책 검사하기</button>
       </div>
       <div className="booklist-container">
         {bookList.map((book) => {

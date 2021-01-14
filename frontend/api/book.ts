@@ -22,3 +22,21 @@ export const deleteBook = async (id: number) => {
 
   return res.data
 }
+
+export const searchBookOnNaver = async (bookName: string) => {
+  const config = {
+    headers: {
+      'X-Naver-Client-Id': 'zEjutSJRBFbkf7eKGlzt',
+      'X-Naver-Client-Secret': 'v9hdlJRure',
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json;charset=utf-8'
+    }
+  }
+  const payload = await axios.get<BookType>(
+    `https://openapi.naver.com/v1/search/book.json?query=${bookName}&display=10&start=1`,
+    config
+  )
+
+  console.log(payload)
+  return payload
+}
