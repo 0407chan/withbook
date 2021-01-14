@@ -26,10 +26,11 @@ export const deleteBook = async (id: number) => {
 export const searchBookOnNaver = async (bookName: string) => {
   const config = {
     headers: {
-      'X-Naver-Client-Id': 'zEjutSJRBFbkf7eKGlzt',
-      'X-Naver-Client-Secret': 'v9hdlJRure',
+      'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
+      'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET,
       'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json;charset=utf-8',
+      Accept: '*/*'
     }
   }
   const payload = await axios.get<BookType>(
