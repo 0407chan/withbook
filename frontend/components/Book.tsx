@@ -2,14 +2,25 @@ import React from 'react'
 import styled from 'styled-components'
 import { BookType } from '../types'
 import API from '../api'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { bookListState } from '../recoil/book'
 import { Maybe } from './common/Maybe'
 import { useRouter } from 'next/router'
+import { isDayState } from '../recoil/day-night'
+import {
+  DAY_BOOK_BG_COLOR,
+  DAY_BOOK_BG_HOVER_COLOR,
+  DAY_FONT_COLOR,
+  NIGHT_BOOK_BG_COLOR,
+  NIGHT_BOOK_BG_HOVER_COLOR,
+  NIGHT_FONT_COLOR
+} from '../config/day-night-mode'
 
 type ContainerProps = {
   image: string
+  isDay: boolean
 }
+
 const Container = styled.div<ContainerProps>`
   display: flex;
   width: 280px;
@@ -19,28 +30,38 @@ const Container = styled.div<ContainerProps>`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #eeeeee;
-  border-radius: 5px;
+  background-color: ${(props) =>
+    props.isDay ? DAY_BOOK_BG_COLOR : NIGHT_BOOK_BG_COLOR};
+
+  transition: background-color 200ms ease, color 200ms ease;
+  border-radius: 10px;
   justify-content: space-between;
   position: relative;
   cursor: pointer;
+  color: ${(props) => (props.isDay ? DAY_FONT_COLOR : NIGHT_FONT_COLOR)};
 
+  &:hover {
+    background-color: ${(props) =>
+      props.isDay ? DAY_BOOK_BG_HOVER_COLOR : NIGHT_BOOK_BG_HOVER_COLOR};
+  }
   .book-info {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 130px;
     display: flex;
+
     flex-direction: column;
     backdrop-filter: blur(15px);
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: ${(props) =>
+      props.isDay ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)'};
+
+    transition: background-color 200ms ease;
+    border-radius: 10px;
     z-index: 5;
     justify-content: center;
     align-items: center;
 
-    &:hover {
-      background-color: #eeeeee;
-    }
     .book-title {
       display: flex;
       word-break: break-all;
@@ -70,6 +91,7 @@ type Props = {
 }
 const Book: React.FC<Props> = ({ book }) => {
   const router = useRouter()
+  const isDay = useRecoilValue(isDayState)
   const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
 
   const deleteBookAction = async (
@@ -89,7 +111,7 @@ const Book: React.FC<Props> = ({ book }) => {
   }
 
   return (
-    <Container image={book.image} onClick={() => linkToRoom()}>
+    <Container isDay={isDay} image={book.image} onClick={() => linkToRoom()}>
       <div className="book-info">
         <div className="book-title">{book.title}</div>
         <div className="book-updatedAd">{book.updatedAt}</div>
