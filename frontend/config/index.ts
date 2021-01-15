@@ -1,5 +1,10 @@
 import type { BookType } from '../types'
 import { format } from 'date-fns'
+export * as default from './day-night-mode'
+
+export const zIndexConfig = {
+  header: 10
+}
 export const DUMMY_BOOK: BookType[] = [
   {
     id: 1,
