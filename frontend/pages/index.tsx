@@ -27,7 +27,6 @@ const Body = styled.div`
   display: flex;
   width: 100%;
   height: calc(100vh - 60px);
-  padding-top: 90px;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
@@ -35,9 +34,8 @@ const Body = styled.div`
   -ms-overflow-style: none;
   scrollbar-width: none;
 
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   .book-add-container {
     input {
@@ -84,7 +82,17 @@ export default function Home() {
       <Header />
       {/* <Search onSearch={(value) => addNewBook(value)}></Search> */}
       <Body>
-        <Space wrap direction="horizontal" size={0} style={{ width: '1280px' }}>
+        <Space
+          wrap
+          direction="horizontal"
+          size={0}
+          style={{
+            maxWidth: '1280px',
+            paddingTop: 20,
+            width: '100%',
+            justifyContent: 'center'
+          }}
+        >
           {bookList.map((book, idx) => {
             return <Book key={idx} book={book} />
           })}
