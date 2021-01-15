@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
 import { bookListState } from '../recoil/book'
 import Book from '../components/Book'
@@ -7,10 +7,18 @@ import Header from '../components/common/Header'
 import { Button, Input, Space } from 'antd'
 import API from '../api'
 import type { BookType, FetchBookType } from '../types'
-const Container = styled.div`
+import { isDayState } from '../recoil/day-night'
+import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../config/day-night-mode'
+import Search from 'antd/lib/input/Search'
+type ContainerProps = {
+  isDay: boolean
+}
+const Container = styled.div<ContainerProps>`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  transition: background-color 200ms ease;
+  background-color: ${(props) => (props.isDay ? DAY_BG_COLOR : NIGHT_BG_COLOR)};
   flex-direction: column;
   align-items: center;
 `
@@ -18,9 +26,15 @@ const Container = styled.div`
 const Body = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
-  max-width: 1280px;
-  margin-top: 30px;
+  height: calc(100vh - 60px);
+  padding-top: 90px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -33,13 +47,15 @@ const Body = styled.div`
 `
 
 export default function Home() {
+  const isDay = useRecoilValue(isDayState)
+
   const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
   const [bookName, setBookName] = useState<string>('')
   const [searchBookList, setSearchBookList] = useState<FetchBookType[]>([])
 
-  const addNewBook = async () => {
-    if (bookName === '') return
-    const newBook = await API.Book.addBook({ title: bookName.substr(0, 45) })
+  const addNewBook = async (value: string) => {
+    if (value === '') return
+    const newBook = await API.Book.addBook({ title: value.substr(0, 45) })
     setBookList([...bookList, newBook[0]])
     setBookName('')
   }
@@ -64,10 +80,11 @@ export default function Home() {
     initBook.current()
   }, [])
   return (
-    <Container>
+    <Container isDay={isDay}>
       <Header />
+      {/* <Search onSearch={(value) => addNewBook(value)}></Search> */}
       <Body>
-        <Space wrap direction="horizontal" size={0} style={{ width: '100%' }}>
+        <Space wrap direction="horizontal" size={0} style={{ width: '1280px' }}>
           {bookList.map((book, idx) => {
             return <Book key={idx} book={book} />
           })}
