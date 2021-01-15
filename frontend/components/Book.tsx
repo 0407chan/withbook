@@ -12,7 +12,7 @@ type ContainerProps = {
 }
 const Container = styled.div<ContainerProps>`
   display: flex;
-  width: 290px;
+  width: 280px;
   height: 360px;
   margin: 20px;
   background: url(${(props) => props.image});
