@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { BookType, BookAddType } from '../types'
+import { BookType, BookAddType, FetchBookType } from '../types'
+import { isDev } from '../utils'
 
-const API_SERVER = 'https://withbook.ml'
-// const API_SERVER = 'http://localhost:3010'
+const API_SERVER = isDev ? 'http://localhost:3010' : 'https://withbook.ml'
 export const fetchAllBooks = async () => {
   const res = await axios.get<BookType[]>(`${API_SERVER}/api/v1/book`)
   return res.data
@@ -23,21 +23,18 @@ export const deleteBook = async (id: number) => {
   return res.data
 }
 
-export const searchBookOnNaver = async (bookName: string) => {
+export const searchBook = async (
+  bookName: string
+): Promise<FetchBookType[]> => {
   const config = {
     headers: {
-      'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
-      'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET,
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json;charset=utf-8',
-      Accept: '*/*'
+      Authorization: `KakaoAK ${process.env.KAKAO_REST_API_KEY}`
     }
   }
-  const payload = await axios.get<BookType>(
-    `https://openapi.naver.com/v1/search/book.json?query=${bookName}&display=10&start=1`,
+  const payload = await axios.get(
+    `https://dapi.kakao.com/v3/search/book?target=title&query=${bookName}`,
     config
   )
 
-  console.log(payload)
-  return payload
+  return payload.data
 }

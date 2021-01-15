@@ -1,3 +1,18 @@
+export type FetchBookType = {
+  authors: string[]
+  contents: string
+  isbn: string
+  dateTime: string
+  price: number
+  publisher: string
+  sale_price: number
+  status: string
+  thumbnail: string
+  title: string
+  translators: string[]
+  url: string
+}
+
 export type BookType = {
   id: number
   title: string
