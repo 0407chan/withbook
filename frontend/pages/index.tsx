@@ -10,6 +10,7 @@ import type { BookType, FetchBookType } from '../types'
 import { isDayState } from '../recoil/day-night'
 import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../config/day-night-mode'
 import Search from 'antd/lib/input/Search'
+import AddBookButton from '../components/common/AddBookButton'
 type ContainerProps = {
   isDay: boolean
 }
@@ -98,6 +99,7 @@ export default function Home() {
           })}
         </Space>
       </Body>
+      <AddBookButton></AddBookButton>
     </Container>
   )
 }
