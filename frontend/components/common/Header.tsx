@@ -87,7 +87,6 @@ const Header: React.FC<Props> = ({ prop }) => {
             <img width="30px" src="/image/sun.png" />
           )}
         </DayNightButton>
-        <Button onClick={() => addNewBook()}>새 책 추가하기</Button>
       </Space>
     </Container>
   )
