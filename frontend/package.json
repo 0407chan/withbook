@@ -9,6 +9,7 @@
     "deploy": "rm -rf docs && npm run build && npx next export -o ../backend/public"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.3.0",
     "@types/styled-components": "^5.1.7",
     "antd": "^4.10.2",
     "axios": "^0.21.1",
