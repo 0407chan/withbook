@@ -53,11 +53,3 @@ jobs:
           echo DB_NAME = ${{ secrets.DB_NAME }} >> .env
           echo DB_PASS = ${{ secrets.DB_PASS }} >> .env
           cat .env
-          
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json')
- 
