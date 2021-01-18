@@ -39,7 +39,6 @@ const SearchBook: React.FC<Props> = ({ book }) => {
   const setCurrentBookAction = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    console.log(book)
     setSelectedBook(book)
     event.stopPropagation()
   }
