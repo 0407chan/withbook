@@ -17,11 +17,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        
+      - name: add frontend env
+      - run: | 
+          cd frontend
+          touch .env
+          echo KAKAO_REST_API_KEY = ${{secrets.KAKAO_REST_API_KEY}}  >> .env
+          cat .env
+        
       - name: Use Node.js ${{ matrix.node-version }}
-      
         uses: actions/setup-node@v1
-        env:
-          KAKAO_REST_API_KEY: ${{secrets.KAKAO_REST_API_KEY}} 
         with:
           node-version: ${{ matrix.node-version }}
       - run: |
@@ -48,4 +53,11 @@ jobs:
           echo DB_NAME = ${{ secrets.DB_NAME }} >> .env
           echo DB_PASS = ${{ secrets.DB_PASS }} >> .env
           cat .env
+          
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json')
  
