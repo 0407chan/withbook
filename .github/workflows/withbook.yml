@@ -47,4 +47,6 @@ jobs:
           echo DB_NAME = ${{ secrets.DB_NAME }} >> .env
           echo DB_PASS = ${{ secrets.DB_PASS }} >> .env
           cat .env
- 
+          
+        run: |
+          pm2 restart withbook
