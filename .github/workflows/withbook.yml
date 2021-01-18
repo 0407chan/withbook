@@ -16,15 +16,15 @@ jobs:
         node-version: [12.x]
 
     steps:
+      - uses: actions/checkout@v2 
+        
       - name: add frontend env
-        uses: actions/setup-node@v1
       - run: | 
           cd frontend
           touch .env
           echo KAKAO_REST_API_KEY = ${{secrets.KAKAO_REST_API_KEY}}  >> .env
           cat .env
-        
-      - uses: actions/checkout@v2 
+          
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -39,17 +39,11 @@ jobs:
           npm run build
       
       - name: Create env file
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_PASS: ${{ secrets.DB_PASS }}
-        
         run: |
           cd backend
           touch .env
-          echo DB_HOST = $DB_HOST >> .env
-          echo DB_USER = $DB_USER >> .env
+          echo DB_HOST = ${{ secrets.DB_HOST }} >> .env
+          echo DB_USER = ${{ secrets.DB_USER }} >> .env
           echo DB_NAME = ${{ secrets.DB_NAME }} >> .env
           echo DB_PASS = ${{ secrets.DB_PASS }} >> .env
           cat .env
