@@ -4,7 +4,8 @@ export * as default from './day-night-mode'
 
 export const zIndexConfig = {
   header: 10,
-  AddBookButton: 20
+  AddBookButton: 20,
+  modal: 500
 }
 export const DUMMY_BOOK: BookType[] = [
   {
