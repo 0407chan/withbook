@@ -78,7 +78,6 @@ const AddBookComponent: React.FC<Props> = ({ contents }) => {
   const [searchKeyword, setSearchKeyword] = useState('')
   const closeModal = () => {
     setIsModalOpen(false)
-    console.log('모달 닫기!')
   }
 
   const stopPropagationAction = (
@@ -99,9 +98,7 @@ const AddBookComponent: React.FC<Props> = ({ contents }) => {
       image: selectedBook.thumbnail
     }
 
-    console.log('이거 넣는다', params)
     const payload = await API.Book.addBook(params)
-    console.log('이게 오겠지', payload)
     setBookList([...bookList, payload[0]])
     setIsModalOpen(false)
   }
