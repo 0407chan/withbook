@@ -42,4 +42,5 @@ export type Comment = {
 }
 export type BookAddType = {
   title: string
+  image?: string
 }

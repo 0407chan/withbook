@@ -10,6 +10,9 @@ import type { BookType, FetchBookType } from '../types'
 import { isDayState } from '../recoil/day-night'
 import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../config/day-night-mode'
 import Search from 'antd/lib/input/Search'
+import AddBookButton from '../components/common/AddBookButton'
+import Modal from '../components/common/Modal'
+import AddBookComponent from '../components/AddBookComponent'
 type ContainerProps = {
   isDay: boolean
 }
@@ -44,29 +47,9 @@ const Body = styled.div`
   }
 `
 
-export default function Home() {
+const Home: React.FC = () => {
   const isDay = useRecoilValue(isDayState)
-
   const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
-  const [bookName, setBookName] = useState<string>('')
-  const [searchBookList, setSearchBookList] = useState<FetchBookType[]>([])
-
-  const addNewBook = async (value: string) => {
-    if (value === '') return
-    const newBook = await API.Book.addBook({ title: value.substr(0, 45) })
-    setBookList([...bookList, newBook[0]])
-    setBookName('')
-  }
-
-  const searchBookAction = async () => {
-    if (bookName === '') return
-    const newBook = await API.Book.searchBook(bookName)
-    setSearchBookList(newBook)
-    setBookName('')
-  }
-  const setBookNameAction = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBookName(event.target.value)
-  }
 
   const initBook = useRef(() => {})
   initBook.current = async () => {
@@ -98,6 +81,11 @@ export default function Home() {
           })}
         </Space>
       </Body>
+      <AddBookButton></AddBookButton>
+
+      <Modal contents={<AddBookComponent />}></Modal>
     </Container>
   )
 }
+
+export default Home
