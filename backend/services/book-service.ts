@@ -1,6 +1,6 @@
 import { pool } from '../utils/db-connection-handler'
 import { Request, Response } from 'express'
-import { Book, BookAddType } from '../dto/book.dto'
+import { BookAddType } from '../dto/book.dto'
 import { ResultSetHeader } from 'mysql2/promise'
 import { format } from 'date-fns'
 export const getAllBook = async (req: Request, res: Response) => {
@@ -31,7 +31,7 @@ export const addBook = async (req: Request, res: Response) => {
   }','${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}','${format(
     new Date(),
     'yyyy-MM-dd HH:mm:ss'
-  )}','')`
+  )}','${book.image}')`
 
   try {
     const insertRes = await dbConnect.query<ResultSetHeader>(query)
@@ -41,7 +41,7 @@ export const addBook = async (req: Request, res: Response) => {
     res.json(newBook[0])
   } catch {
     const insertError = 'insert error'
-    res.json(insertError)
+    res.status(502).json(insertError)
   }
 }
 
