@@ -94,14 +94,14 @@ const AddBookComponent: React.FC<Props> = ({ contents }) => {
     setSearchBookList(payload)
   }
   const addNewRoomAction = async () => {
-    console.log(selectedBook)
     const params: BookAddType = {
       title: selectedBook.title,
       image: selectedBook.thumbnail
     }
 
+    console.log('이거 넣는다', params)
     const payload = await API.Book.addBook(params)
-
+    console.log('이게 오겠지', payload)
     setBookList([...bookList, payload[0]])
     setIsModalOpen(false)
   }
