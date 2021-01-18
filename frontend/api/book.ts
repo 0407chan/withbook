@@ -36,5 +36,5 @@ export const searchBook = async (
     config
   )
 
-  return payload.data
+  return payload.data.documents
 }
