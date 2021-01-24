@@ -116,12 +116,6 @@ const Book: React.FC<Props> = ({ book }) => {
         <div className="book-title">{book.title}</div>
         <div className="book-updatedAd">{book.updatedAt}</div>
         <div className="book-userId">{book.userId}</div>
-        <button
-          className="book-delete-button"
-          onClick={(e) => deleteBookAction(e, book.id)}
-        >
-          X
-        </button>
       </div>
 
       <Maybe is={book.image === undefined || book.image === ''}>

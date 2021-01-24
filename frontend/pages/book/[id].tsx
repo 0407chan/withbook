@@ -42,12 +42,12 @@ const BookRoom: React.FC = () => {
         <div className="book-updatedAd">{book?.updatedAt}</div>
         <div className="book-userId">{book?.userId}</div>
 
-        <button
+        {/* <button
           className="book-delete-button"
           onClick={() => deleteBookAction()}
         >
           X
-        </button>
+        </button> */}
       </div>
     </Container>
   )
