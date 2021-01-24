@@ -4,7 +4,7 @@ import {
   addBook,
   getBook,
   deleteBook
-} from '../services/book-service'
+} from '../controller/book-controller'
 
 const router = Router({})
 
