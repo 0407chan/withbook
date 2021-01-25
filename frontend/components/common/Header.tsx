@@ -1,4 +1,5 @@
 import { Button, Space } from 'antd'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
@@ -7,7 +8,10 @@ import {
   DAY_BG_COLOR,
   DAY_FONT_COLOR,
   NIGHT_BG_COLOR,
-  NIGHT_FONT_COLOR
+  NIGHT_BOOK_BG_HOVER_COLOR,
+  NIGHT_FONT_COLOR,
+  DAY,
+  NIGHT
 } from '../../config/day-night-mode'
 import { isDayState } from '../../recoil/day-night'
 
@@ -37,6 +41,16 @@ const Container = styled.div<ContainerProps>`
 
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+
+    transition: 200ms color ease;
+
+    &:hover {
+      color: ${(props) =>
+        props.isDay
+          ? DAY.headerWithBookHoverColor
+          : NIGHT.headerWithBookHoverColor};
+    }
   }
 `
 
@@ -61,6 +75,8 @@ type Props = {
 }
 const Header: React.FC<Props> = ({ prop }) => {
   const [isDay, setIsDay] = useRecoilState<boolean>(isDayState)
+  const router = useRouter()
+
   const addNewBook = () => {
     console.log('새로 넣자!')
   }
@@ -68,6 +84,9 @@ const Header: React.FC<Props> = ({ prop }) => {
   const toggleDayNight = () => {
     console.log(isDay ? '아침이네' : '밤이네')
     setIsDay(!isDay)
+  }
+  const goHome = () => {
+    router.push(`/`)
   }
   return (
     <Container isDay={isDay}>
@@ -79,7 +98,9 @@ const Header: React.FC<Props> = ({ prop }) => {
           padding: '0px 20px'
         }}
       >
-        <div className="header-title">WithBook</div>
+        <div className="header-title" onClick={() => goHome()}>
+          WithBook
+        </div>
         <DayNightButton isDay={isDay} onClick={() => toggleDayNight()}>
           {isDay ? (
             <img width="30px" src="/image/moon.png" />
