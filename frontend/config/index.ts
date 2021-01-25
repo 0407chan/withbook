@@ -1,6 +1,5 @@
-import type { BookType } from '../types'
+import type { BookType, Comment } from '../types'
 import { format } from 'date-fns'
-export * as default from './day-night-mode'
 
 export const zIndexConfig = {
   header: 10,
@@ -31,5 +30,22 @@ export const DUMMY_BOOK: BookType[] = [
     updatedAt: `${format(new Date(), 'yyyy-MM-dd HH:mm')}`,
     image: '/image/이찬호.png',
     userId: 1
+  }
+]
+
+export const DUMMY_COMMENT: Comment[] = [
+  {
+    id: 1,
+    content: '너무재미있네요 이책',
+    createdAt: format(new Date(), 'yyyy-MM-dd HH:mm'),
+    updatedAt: format(new Date(), 'yyyy-MM-dd HH:mm'),
+    writer: '이찬호'
+  },
+  {
+    id: 2,
+    content: '핵꿀 개꿀',
+    createdAt: format(new Date(), 'yyyy-MM-dd HH:mm'),
+    updatedAt: format(new Date(), 'yyyy-MM-dd HH:mm'),
+    writer: '삼찬호'
   }
 ]
