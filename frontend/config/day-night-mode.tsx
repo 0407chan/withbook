@@ -9,3 +9,10 @@ export const NIGHT_BOOK_BG_COLOR = '#5c5a6c'
 
 export const DAY_BOOK_BG_HOVER_COLOR = '#e1effe'
 export const NIGHT_BOOK_BG_HOVER_COLOR = '#ac8f4f'
+
+export const NIGHT = {
+  headerWithBookHoverColor: '#f0bb34'
+}
+export const DAY = {
+  headerWithBookHoverColor: '#2b92ff'
+}
