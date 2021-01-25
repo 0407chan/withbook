@@ -1,19 +1,55 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { BookType } from '../../types'
 import { bookListState } from '../../recoil/book'
 import { useRouter } from 'next/router'
-import { Maybe } from '../../components/common/Maybe'
+import { Maybe } from '../../components/utils/Maybe'
 import API from '../../api'
-const Container = styled.div`
+import BookMark from '../../components/BookMark'
+import { Space } from 'antd'
+import Header from '../../components/common/Header'
+import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../../config/day-night-mode'
+import { isDayState } from '../../recoil/day-night'
+
+type ContainerProps = {
+  isDay: boolean
+}
+const Container = styled.div<ContainerProps>`
   display: flex;
   width: 100%;
-  height: 100%;
-  margin: 20px;
-  background-color: #eeeeee;
+  height: 100vh;
+  transition: background-color 200ms ease;
+  background-color: ${(props) => (props.isDay ? DAY_BG_COLOR : NIGHT_BG_COLOR)};
+  flex-direction: column;
+  align-items: center;
 `
+
+const Body = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 20px;
+  max-width: 1280px;
+  height: calc(100vh - 60px);
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  align-items: center;
+  flex-direction: column;
+
+  .book-add-container {
+    input {
+      margin-right: 20px;
+    }
+  }
+`
+
 const BookRoom: React.FC = () => {
+  const isDay = useRecoilValue(isDayState)
   const [book, setBook] = useState<BookType>()
   const router = useRouter()
   let { id } = router.query
@@ -34,21 +70,30 @@ const BookRoom: React.FC = () => {
     initBook.current()
   }, [])
   return (
-    <Container>
-      <div className="book-info">
-        <div>
-          <h1>{book?.title}</h1>
-        </div>
-        <div className="book-updatedAd">{book?.updatedAt}</div>
-        <div className="book-userId">{book?.userId}</div>
+    <Container isDay={isDay}>
+      <Header />
+      <Body>
+        <div className="book-info">
+          <div>
+            <h1>{book?.title}</h1>
+          </div>
+          <div className="book-updatedAd">{book?.updatedAt}</div>
+          <div className="book-userId">{book?.userId}</div>
 
-        {/* <button
+          {/* <button
           className="book-delete-button"
           onClick={() => deleteBookAction()}
         >
           X
         </button> */}
-      </div>
+          <Space wrap direction="horizontal" size={20}>
+            <BookMark></BookMark>
+            <BookMark></BookMark>
+            <BookMark></BookMark>
+            <BookMark></BookMark>
+          </Space>
+        </div>
+      </Body>
     </Container>
   )
 }
