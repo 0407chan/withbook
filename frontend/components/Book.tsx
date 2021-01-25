@@ -4,7 +4,7 @@ import { BookType } from '../types'
 import API from '../api'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { bookListState } from '../recoil/book'
-import { Maybe } from './common/Maybe'
+import { Maybe } from './utils/Maybe'
 import { useRouter } from 'next/router'
 import { isDayState } from '../recoil/day-night'
 import {
@@ -23,19 +23,16 @@ type ContainerProps = {
 
 const Container = styled.div<ContainerProps>`
   display: flex;
-  width: 280px;
+  width: 250px;
   height: 360px;
   margin: 20px;
-  background: url(${(props) => props.image});
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
   background-color: ${(props) =>
     props.isDay ? DAY_BOOK_BG_COLOR : NIGHT_BOOK_BG_COLOR};
 
   transition: background-color 200ms ease, color 200ms ease;
   border-radius: 10px;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   position: relative;
   cursor: pointer;
   color: ${(props) => (props.isDay ? DAY_FONT_COLOR : NIGHT_FONT_COLOR)};
@@ -44,11 +41,21 @@ const Container = styled.div<ContainerProps>`
     background-color: ${(props) =>
       props.isDay ? DAY_BOOK_BG_HOVER_COLOR : NIGHT_BOOK_BG_HOVER_COLOR};
   }
+
+  .book-img {
+    display: flex;
+    position: absolute;
+    border-radius: 10px;
+    top: 30px;
+    width: 130px;
+  }
+
   .book-info {
     position: absolute;
     bottom: 0;
+    padding: 20px;
     width: 100%;
-    height: 130px;
+    height: 120px;
     display: flex;
 
     flex-direction: column;
@@ -57,7 +64,8 @@ const Container = styled.div<ContainerProps>`
       props.isDay ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)'};
 
     transition: background-color 200ms ease;
-    border-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     z-index: 5;
     justify-content: center;
     align-items: center;
@@ -112,9 +120,10 @@ const Book: React.FC<Props> = ({ book }) => {
 
   return (
     <Container isDay={isDay} image={book.image} onClick={() => linkToRoom()}>
+      <img className="book-img" src={book.image} />
       <div className="book-info">
         <div className="book-title">{book.title}</div>
-        <div className="book-updatedAd">{book.updatedAt}</div>
+        {/* <div className="book-updatedAd">{book.updatedAt}</div> */}
         <div className="book-userId">{book.userId}</div>
       </div>
 
