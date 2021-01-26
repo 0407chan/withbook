@@ -11,6 +11,8 @@ import { Space } from 'antd'
 import Header from '../../components/common/Header'
 import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../../config/day-night-mode'
 import { isDayState } from '../../recoil/day-night'
+import { BookmarkBodyType, BookmarkType } from '../../types/bookmark'
+import { addBookmark } from '../../api/bookmark'
 
 type ContainerProps = {
   isDay: boolean
@@ -46,29 +48,65 @@ const Body = styled.div`
       margin-right: 20px;
     }
   }
+
+  .bookmark-add-button {
+    display: flex;
+    margin: 20px;
+    background-color: #fff;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+
+    transition: filter 200ms ease;
+    &:hover {
+      filter: brightness(0.7);
+    }
+  }
 `
 
 const BookRoom: React.FC = () => {
   const isDay = useRecoilValue(isDayState)
   const [book, setBook] = useState<BookType>()
+  const [bookmarks, setBookmarks] = useState<BookmarkType[]>([])
   const router = useRouter()
-  let { id } = router.query
+  let { bookId } = router.query
 
   const deleteBookAction = async () => {
-    const res = await API.Book.deleteBook(Number(id))
+    const res = await API.Book.deleteBook(Number(bookId))
     router.push('/')
   }
   const initBook = useRef(() => {})
   initBook.current = async () => {
-    if (id === undefined) {
-      id = window.location.href.split('book/')[1]
+    if (bookId === undefined) {
+      bookId = window.location.href.split('book/')[1]
     }
-    const book = await API.Book.fetchBook(Number(id))
+    const book = await API.Book.fetchBook(Number(bookId))
+    const bookmarkList = await API.Bookmark.fetchAllBookmarks(Number(bookId))
+    setBookmarks(bookmarkList)
     setBook(book[0])
   }
+
   useEffect(() => {
     initBook.current()
   }, [])
+
+  const bookmarkAdd = async () => {
+    if (bookId === undefined) {
+      bookId = window.location.href.split('book/')[1]
+    }
+
+    const params: BookmarkBodyType = {
+      bookId: Number(bookId),
+      bookpage: Math.floor(Math.random() * 10),
+      title: '오냐냐냐냐'
+    }
+
+    const payload = await addBookmark(params)
+    setBookmarks([...bookmarks, payload])
+  }
+
   return (
     <Container isDay={isDay}>
       <Header />
@@ -86,12 +124,16 @@ const BookRoom: React.FC = () => {
         >
           X
         </button> */}
+        </div>
+        <Maybe is={bookmarks.length > 0}>
           <Space wrap direction="horizontal" size={20}>
-            <BookMark></BookMark>
-            <BookMark></BookMark>
-            <BookMark></BookMark>
-            <BookMark></BookMark>
+            {bookmarks.map((bookmark) => (
+              <BookMark key={bookmark.id}></BookMark>
+            ))}
           </Space>
+        </Maybe>
+        <div className="bookmark-add-button" onClick={() => bookmarkAdd()}>
+          +
         </div>
       </Body>
     </Container>
