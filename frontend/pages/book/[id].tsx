@@ -109,7 +109,6 @@ const BookRoom: React.FC = () => {
 
   return (
     <Container isDay={isDay}>
-      <Header />
       <Body>
         <div className="book-info">
           <div>

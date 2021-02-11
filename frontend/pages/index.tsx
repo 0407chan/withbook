@@ -12,33 +12,17 @@ import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../config/day-night-mode'
 import Search from 'antd/lib/input/Search'
 import AddBookButton from '../components/common/AddBookButton'
 import Modal from '../components/common/Modal'
-import AddBookComponent from '../components/AddBookComponent'
+import AddBookModal from '../components/modals/AddBookModal'
 type ContainerProps = {
   isDay: boolean
 }
 const Container = styled.div<ContainerProps>`
   display: flex;
-  width: 100%;
-  height: 100vh;
   transition: background-color 200ms ease;
   background-color: ${(props) => (props.isDay ? DAY_BG_COLOR : NIGHT_BG_COLOR)};
   flex-direction: column;
   align-items: center;
-`
-
-const Body = styled.div`
-  display: flex;
-  width: 100%;
-  height: calc(100vh - 60px);
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-
-  align-items: center;
-  flex-direction: column;
+  /* overflow-y: scroll; */
 
   .book-add-container {
     input {
@@ -62,28 +46,25 @@ const Home: React.FC = () => {
   }, [])
   return (
     <Container isDay={isDay}>
-      <Header />
       {/* <Search onSearch={(value) => addNewBook(value)}></Search> */}
-      <Body>
-        <Space
-          wrap
-          direction="horizontal"
-          size={0}
-          style={{
-            maxWidth: '1280px',
-            paddingTop: 20,
-            width: '100%',
-            justifyContent: 'center'
-          }}
-        >
-          {bookList.map((book, idx) => {
-            return <Book key={idx} book={book} />
-          })}
-        </Space>
-      </Body>
+      <Space
+        wrap
+        direction="horizontal"
+        size={0}
+        style={{
+          maxWidth: '1280px',
+          paddingTop: 20,
+          width: '100%',
+          justifyContent: 'center'
+        }}
+      >
+        {bookList.map((book, idx) => {
+          return <Book key={idx} book={book} />
+        })}
+      </Space>
       <AddBookButton></AddBookButton>
 
-      <Modal contents={<AddBookComponent />}></Modal>
+      <Modal contents={<AddBookModal />}></Modal>
     </Container>
   )
 }
