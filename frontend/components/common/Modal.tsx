@@ -18,10 +18,11 @@ type ContainerProps = {
 const Container = styled.div<ContainerProps>`
   display: flex;
   position: absolute;
+  top: 0;
   z-index: ${(props) => (props.isModalOpen ? zIndexConfig.modal : -1)};
   transition: background-color 200ms ease;
-  width: 100vw;
-  height: 100vh;
+  width: ${(props) => (props.isModalOpen ? '100%' : '0')};
+  height: ${(props) => (props.isModalOpen ? '100%' : '0')};
   justify-content: center;
   align-items: center;
   background-color: ${(props) =>
