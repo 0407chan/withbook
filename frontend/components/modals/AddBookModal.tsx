@@ -8,14 +8,14 @@ import {
   DAY_FONT_COLOR,
   NIGHT_BG_COLOR,
   NIGHT_FONT_COLOR
-} from '../config/day-night-mode'
-import { isDayState } from '../recoil/day-night'
-import API from '../api'
-import { BookAddType, BookType, FetchBookType } from '../types'
-import SearchBook from './SearchBook'
-import { bookListState, selectedBookState } from '../recoil/book'
+} from '../../config/day-night-mode'
+import { isDayState } from '../../recoil/day-night'
+import API from '../../api'
+import { BookAddType, BookType, FetchBookType } from '../../types'
+import SearchBook from '../SearchBook'
+import { bookListState, selectedBookState } from '../../recoil/book'
 import { format } from 'date-fns'
-import { modalOpenState } from '../recoil/modal'
+import { modalOpenState } from '../../recoil/modal'
 
 type ContainerProps = {
   isDay: boolean
@@ -66,7 +66,7 @@ const Container = styled.div<ContainerProps>`
 type Props = {
   contents?: React.ReactNode
 }
-const AddBookComponent: React.FC<Props> = ({ contents }) => {
+const AddBookModal: React.FC<Props> = ({ contents }) => {
   const isDay = useRecoilValue<boolean>(isDayState)
   const [searchBookList, setSearchBookList] = useState<FetchBookType[]>([])
   const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
@@ -144,4 +144,4 @@ const AddBookComponent: React.FC<Props> = ({ contents }) => {
     </Container>
   )
 }
-export default AddBookComponent
+export default AddBookModal
