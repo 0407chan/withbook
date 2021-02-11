@@ -23,7 +23,7 @@ type ContainerProps = {
 }
 const Container = styled.div<ContainerProps>`
   display: flex;
-  position: absolute;
+  position: fixed;
   bottom: 30px;
   right: 30px;
   cursor: pointer;
