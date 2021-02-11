@@ -22,6 +22,8 @@ const Container = styled.div<ContainerProps>`
   display: flex;
   width: 100%;
   height: 60px;
+  position: sticky;
+  top: 0;
   z-index: ${zIndexConfig.header};
   background-color: ${(props) => (props.isDay ? DAY_BG_COLOR : NIGHT_BG_COLOR)};
   color: ${(props) => (props.isDay ? DAY_FONT_COLOR : NIGHT_FONT_COLOR)};
