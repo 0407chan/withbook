@@ -20,9 +20,15 @@ const Container = styled.div<ContainerProps>`
   display: flex;
   transition: background-color 200ms ease;
   background-color: ${(props) => (props.isDay ? DAY_BG_COLOR : NIGHT_BG_COLOR)};
+
   flex-direction: column;
   align-items: center;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   .book-add-container {
     input {
