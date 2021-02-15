@@ -21,6 +21,8 @@ const Container = styled.div<ContainerProps>`
   transition: background-color 200ms ease;
   background-color: ${(props) => (props.isDay ? DAY_BG_COLOR : NIGHT_BG_COLOR)};
 
+  width: 100%;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
