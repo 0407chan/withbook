@@ -8,7 +8,7 @@ import { FetchBookType } from '../types'
 
 type ContainerProps = {
   image: string
-  isSelected: boolean
+  // isSelected: boolean
 }
 const Container = styled.div<ContainerProps>`
   display: flex;
@@ -18,15 +18,21 @@ const Container = styled.div<ContainerProps>`
   height: 174px;
   background: url(${(props) => props.image});
   cursor: pointer;
+  opacity: 0.7;
+  transition: transform 200ms ease;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
+    opacity: 1;
     border: 1px solid #eeeeee;
     box-shadow: 0px 1px 8px rgba(255, 255, 255, 0.3);
   }
 
-  ${(props) => props.isSelected && 'border: 1px solid #00aeff;'}
-  ${(props) => props.isSelected && 'transform: scale(1.05);'}
+  &.selected-book {
+    opacity: 1;
+    border: 1px solid #00aeff;
+    transform: scale(1.05);
+  }
 `
 
 type Props = {
@@ -44,8 +50,9 @@ const SearchBook: React.FC<Props> = ({ book }) => {
   }
   return (
     <Container
+      className={selectedBook?.isbn === book.isbn ? 'selected-book' : ''}
       onClick={(event) => setCurrentBookAction(event)}
-      isSelected={selectedBook?.isbn === book.isbn}
+      // isSelected={selectedBook?.isbn === book.isbn}
       image={book.thumbnail}
     ></Container>
   )

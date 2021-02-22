@@ -20,18 +20,20 @@ const Container = styled.div<ContainerProps>`
   position: absolute;
   top: 0;
   z-index: ${(props) => (props.isModalOpen ? zIndexConfig.modal : -1)};
-  transition: background-color 200ms ease;
-  width: ${(props) => (props.isModalOpen ? '100%' : '0')};
-  height: ${(props) => (props.isModalOpen ? '100%' : '0')};
+  transition: background-color 200ms ease, z-index 200ms ease;
+  width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
   background-color: ${(props) =>
-    props.isModalOpen ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0,0,0,0)'};
+    props.isModalOpen ? 'rgba(0, 0, 0, 0.6)' : 'rgba(0,0,0,0)'};
 
   .modal-contents {
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: ${(props) => (props.isModalOpen ? '1' : '0')};
+    transition: opacity 200ms ease;
     z-index: ${zIndexConfig.modal + 1};
   }
 `
