@@ -1,18 +1,16 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { Space } from 'antd'
+import { NextPage } from 'next'
+import React from 'react'
+import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { bookListState } from '../recoil/book'
+import { fetchAllBooks } from '../api/book'
 import Book from '../components/Book'
-import Header from '../components/common/Header'
-import { Button, Input, Space } from 'antd'
-import API from '../api'
-import type { BookType, FetchBookType } from '../types'
-import { isDayState } from '../recoil/day-night'
-import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../config/day-night-mode'
-import Search from 'antd/lib/input/Search'
 import AddBookButton from '../components/common/AddBookButton'
 import Modal from '../components/common/Modal'
 import AddBookModal from '../components/modals/AddBookModal'
+import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../config/day-night-mode'
+import { isDayState } from '../recoil/day-night'
+import type { BookType } from '../types'
 type ContainerProps = {
   isDay: boolean
 }
@@ -39,22 +37,14 @@ const Container = styled.div<ContainerProps>`
   }
 `
 
-const Home: React.FC = () => {
+type HomeProps = {
+  bookList: BookType[]
+}
+const Home: NextPage<HomeProps> = ({ bookList }) => {
   const isDay = useRecoilValue(isDayState)
-  const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
 
-  const initBook = useRef(() => {})
-  initBook.current = async () => {
-    const res = await API.Book.fetchAllBooks()
-    setBookList(res)
-  }
-
-  useEffect(() => {
-    initBook.current()
-  }, [])
   return (
     <Container isDay={isDay}>
-      {/* <Search onSearch={(value) => addNewBook(value)}></Search> */}
       <Space
         wrap
         direction="horizontal"
@@ -66,9 +56,9 @@ const Home: React.FC = () => {
           justifyContent: 'center'
         }}
       >
-        {bookList.map((book, idx) => {
-          return <Book key={idx} book={book} />
-        })}
+        {bookList.map((book) => (
+          <Book key={book.id} book={book} />
+        ))}
       </Space>
       <AddBookButton></AddBookButton>
 
@@ -77,4 +67,8 @@ const Home: React.FC = () => {
   )
 }
 
+Home.getInitialProps = async () => {
+  const res = await fetchAllBooks()
+  return { bookList: res }
+}
 export default Home
