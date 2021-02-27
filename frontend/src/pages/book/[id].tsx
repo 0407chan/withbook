@@ -126,11 +126,9 @@ const BookRoom: NextPage<BookRoomProps> = ({ book, bookmarkList }) => {
   )
 }
 
-BookRoom.getInitialProps = async ({ query, pathname }) => {
+BookRoom.getInitialProps = async ({ query }) => {
   let bookId = query.id
-  if (bookId === undefined) {
-    bookId = window.location.href.split('book/')[1]
-  }
+
   const book = await API.Book.fetchBook(Number(bookId))
 
   const bookMarkPayload = await API.Bookmark.fetchAllBookmarks(Number(bookId))
