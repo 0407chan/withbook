@@ -1,12 +1,12 @@
-import { pool } from '../utils/db-connection-handler'
-import { Request, Response } from 'express'
-import { BookmarkBodyDto } from '../dto/bookmark.dto'
-import { ResultSetHeader } from 'mysql2/promise'
 import { format } from 'date-fns'
+import { Request, Response } from 'express'
+import { ResultSetHeader } from 'mysql2/promise'
+import { BookmarkBodyDto } from '../dto/bookmark.dto'
+import { pool } from '../utils/db-connection-handler'
 export const getAllBookmark = async (req: Request, res: Response) => {
   const dbConnect = await pool.getConnection()
   const bookId = Number(req.params.id)
-  const query = `select * from withbook.bookmark where bookId=${bookId}`
+  const query = `select * from withbook.bookmark where bookId=${bookId} order by bookpage`
   const resQuery = await dbConnect.query(query)
   dbConnect.release()
   res.json(resQuery[0])
@@ -60,7 +60,7 @@ export const deleteBookmark = async (req: Request, res: Response) => {
     console.log(queryRes)
     res.json(id)
   } catch {
-    const insertError = -1
-    res.json(insertError)
+    const deleteError = -1
+    res.json(deleteError)
   }
 }
