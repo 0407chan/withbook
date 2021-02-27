@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { BookType } from '../../types'
-import { bookListState } from '../../recoil/book'
-import { useRouter } from 'next/router'
-import { Maybe } from '../../components/utils/Maybe'
-import API from '../../api'
-import BookMark from '../../components/BookMark'
 import { Space } from 'antd'
-import Header from '../../components/common/Header'
-import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../../config/day-night-mode'
-import { isDayState } from '../../recoil/day-night'
-import { BookmarkBodyType, BookmarkType } from '../../types/bookmark'
+import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import styled from 'styled-components'
+import API from '../../api'
 import { addBookmark } from '../../api/bookmark'
+import BookMark from '../../components/BookMark'
+import { Maybe } from '../../components/utils/Maybe'
+import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../../config/day-night-mode'
+import { bookMarkListState } from '../../recoil/book'
+import { isDayState } from '../../recoil/day-night'
+import type { BookType } from '../../types'
+import { BookmarkBodyType, BookmarkType } from '../../types/bookmark'
 
 type ContainerProps = {
   isDay: boolean
@@ -20,29 +20,22 @@ type ContainerProps = {
 const Container = styled.div<ContainerProps>`
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  overflow-y: scroll;
   transition: background-color 200ms ease;
   background-color: ${(props) => (props.isDay ? DAY_BG_COLOR : NIGHT_BG_COLOR)};
   flex-direction: column;
   align-items: center;
-`
 
-const Body = styled.div`
-  display: flex;
-  width: 100%;
-  padding: 20px;
-  max-width: 1280px;
-  height: calc(100vh - 60px);
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     display: none;
   }
   -ms-overflow-style: none;
   scrollbar-width: none;
-
-  align-items: center;
-  flex-direction: column;
-
+   */
+  .book-info {
+    display: flex;
+  }
   .book-add-container {
     input {
       margin-right: 20px;
@@ -66,76 +59,83 @@ const Body = styled.div`
   }
 `
 
-const BookRoom: React.FC = () => {
+type BookRoomProps = {
+  book: BookType
+  bookmarkList: BookmarkType[]
+}
+const BookRoom: NextPage<BookRoomProps> = ({ book, bookmarkList }) => {
   const isDay = useRecoilValue(isDayState)
-  const [book, setBook] = useState<BookType>()
-  const [bookmarks, setBookmarks] = useState<BookmarkType[]>([])
-  const router = useRouter()
-  let { bookId } = router.query
-
-  const deleteBookAction = async () => {
-    const res = await API.Book.deleteBook(Number(bookId))
-    router.push('/')
-  }
-  const initBook = useRef(() => {})
-  initBook.current = async () => {
-    if (bookId === undefined) {
-      bookId = window.location.href.split('book/')[1]
-    }
-    const book = await API.Book.fetchBook(Number(bookId))
-    const bookmarkList = await API.Bookmark.fetchAllBookmarks(Number(bookId))
-    setBookmarks(bookmarkList)
-    setBook(book[0])
-  }
-
+  const [bookmarks, setBookmarks] = useRecoilState<BookmarkType[]>(
+    bookMarkListState
+  )
   useEffect(() => {
-    initBook.current()
+    setBookmarks(bookmarkList)
   }, [])
 
-  const bookmarkAdd = async () => {
-    if (bookId === undefined) {
-      bookId = window.location.href.split('book/')[1]
-    }
+  const router = useRouter()
 
+  const deleteBookAction = async () => {
+    const res = await API.Book.deleteBook(Number(book.id))
+    router.push('/')
+  }
+
+  const bookmarkAdd = async () => {
+    const randomNumber = Math.floor(Math.random() * 10) + 1
     const params: BookmarkBodyType = {
-      bookId: Number(bookId),
-      bookpage: Math.floor(Math.random() * 10),
-      title: '오냐냐냐냐'
+      bookId: Number(book.id),
+      bookpage: randomNumber,
+      title: '헤헤헿ㅎ'
     }
 
     const payload = await addBookmark(params)
-    setBookmarks([...bookmarks, payload])
+    setBookmarks([...bookmarks, payload[0]])
   }
 
   return (
     <Container isDay={isDay}>
-      <Body>
-        <div className="book-info">
-          <div>
-            <h1>{book?.title}</h1>
-          </div>
-          <div className="book-updatedAd">{book?.updatedAt}</div>
-          <div className="book-userId">{book?.userId}</div>
+      <div className="book-info">
+        <div>
+          <h1>{book.title}</h1>
+        </div>
+        <div className="book-updatedAd">{book.updatedAt}</div>
+        <div className="book-userId">{book.userId}</div>
 
-          {/* <button
+        {/* <button
           className="book-delete-button"
           onClick={() => deleteBookAction()}
         >
           X
         </button> */}
-        </div>
-        <Maybe is={bookmarks.length > 0}>
-          <Space wrap direction="horizontal" size={20}>
-            {bookmarks.map((bookmark) => (
-              <BookMark key={bookmark.id}></BookMark>
-            ))}
-          </Space>
-        </Maybe>
-        <div className="bookmark-add-button" onClick={() => bookmarkAdd()}>
-          +
-        </div>
-      </Body>
+      </div>
+      <Maybe is={bookmarks.length > 0}>
+        <Space
+          wrap
+          direction="horizontal"
+          size={20}
+          style={{ justifyContent: 'center' }}
+        >
+          {bookmarks.map((bookmark) => (
+            <BookMark key={bookmark.id} bookmark={bookmark}></BookMark>
+          ))}
+        </Space>
+      </Maybe>
+      <div className="bookmark-add-button" onClick={() => bookmarkAdd()}>
+        +
+      </div>
     </Container>
   )
 }
+
+BookRoom.getInitialProps = async ({ query, pathname }) => {
+  let bookId = query.id
+  if (bookId === undefined) {
+    bookId = window.location.href.split('book/')[1]
+  }
+  const book = await API.Book.fetchBook(Number(bookId))
+
+  const bookMarkPayload = await API.Bookmark.fetchAllBookmarks(Number(bookId))
+
+  return { book: book[0], bookmarkList: bookMarkPayload }
+}
+
 export default BookRoom
