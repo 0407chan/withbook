@@ -1,12 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
-import { BookType } from '../types'
-import API from '../api'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { bookListState } from '../recoil/book'
-import { Maybe } from './utils/Maybe'
 import { useRouter } from 'next/router'
-import { isDayState } from '../recoil/day-night'
+import React, { useEffect, useRef, useState } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import styled from 'styled-components'
+import API from '../api'
 import {
   DAY_BOOK_BG_COLOR,
   DAY_BOOK_BG_HOVER_COLOR,
@@ -15,6 +11,10 @@ import {
   NIGHT_BOOK_BG_HOVER_COLOR,
   NIGHT_FONT_COLOR
 } from '../config/day-night-mode'
+import { bookListState } from '../recoil/book'
+import { isDayState } from '../recoil/day-night'
+import { BookType } from '../types'
+import { Maybe } from './utils/Maybe'
 
 type ContainerProps = {
   image: string
@@ -86,61 +86,6 @@ const Container = styled.div<ContainerProps>`
     }
   }
 `
-// const Container = styled.div<ContainerProps>`
-//   display: flex;
-//   width: 250px;
-//   height: 360px;
-//   margin: 20px;
-//   background-color: ${(props) =>
-//     props.isDay ? DAY_BOOK_BG_COLOR : NIGHT_BOOK_BG_COLOR};
-
-//   transition: background-color 200ms ease, color 200ms ease;
-//   border-radius: 10px;
-//   justify-content: center;
-//   align-items: center;
-//   position: relative;
-//   cursor: pointer;
-//   color: ${(props) => (props.isDay ? DAY_FONT_COLOR : NIGHT_FONT_COLOR)};
-
-//   &:hover {
-//     background-color: ${(props) =>
-//       props.isDay ? DAY_BOOK_BG_HOVER_COLOR : NIGHT_BOOK_BG_HOVER_COLOR};
-//   }
-
-//   .book-img {
-//     display: flex;
-//     position: absolute;
-//     border-radius: 10px;
-//     top: 30px;
-//     width: 130px;
-//   }
-
-//   .book-info {
-//     position: absolute;
-//     bottom: 0;
-//     padding: 20px;
-//     width: 100%;
-//     height: 120px;
-//     display: flex;
-
-//     flex-direction: column;
-//     backdrop-filter: blur(15px);
-//     background-color: ${(props) =>
-//       props.isDay ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)'};
-
-//     transition: background-color 200ms ease;
-//     border-bottom-left-radius: 10px;
-//     border-bottom-right-radius: 10px;
-//     z-index: 5;
-//     justify-content: center;
-//     align-items: center;
-
-//     .book-title {
-//       display: flex;
-//       word-break: break-all;
-//       justify-content: flex-start;
-//     }
-// `
 
 const IMG_CONFIG = [
   'image/월요일좋아1.png',
@@ -192,8 +137,8 @@ const Book: React.FC<Props> = ({ book }) => {
         <div className="book-title">{book.title}</div>
         <Maybe is={userList.length > 0}>
           <div className="book-user-wrapper">
-            {userList.map((user) => (
-              <img className="book-user-icon" src={user}></img>
+            {userList.map((user, idx) => (
+              <img key={idx} className="book-user-icon" src={user}></img>
             ))}
           </div>
         </Maybe>
