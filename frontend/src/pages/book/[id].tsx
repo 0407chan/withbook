@@ -27,12 +27,12 @@ const Container = styled.div<ContainerProps>`
   flex-direction: column;
   align-items: center;
 
-  /* ::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     display: none;
   }
   -ms-overflow-style: none;
   scrollbar-width: none;
-   */
+
   .book-info {
     display: flex;
   }
