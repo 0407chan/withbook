@@ -1,5 +1,5 @@
-import Header from '../common/Header'
 import styled from 'styled-components'
+import Header from '../common/Header'
 
 const Container = styled.div`
   display: flex;
