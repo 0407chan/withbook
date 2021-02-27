@@ -1,7 +1,11 @@
-import { Space } from 'antd'
+import { Button, Space } from 'antd'
 import React from 'react'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
+import { deleteBookmark } from '../api/bookmark'
 import { DUMMY_COMMENT } from '../config'
+import { bookMarkListState } from '../recoil/book'
+import { BookmarkType } from '../types/bookmark'
 
 const Container = styled.div`
   display: flex;
@@ -19,20 +23,34 @@ const Container = styled.div`
   }
   .bookmark-title {
   }
+
+  .bookmark-delete-button {
+  }
 `
 
 type Props = {
-  prop?: string
+  bookmark: BookmarkType
 }
-const BookMark: React.FC<Props> = ({ prop }) => {
+
+// 코멘트 fetch 해와야한다
+const BookMark: React.FC<Props> = ({ bookmark }) => {
+  const [bookmarkList, setBookmarkList] = useRecoilState(bookMarkListState)
+
+  const deleteBookMarkAction = async () => {
+    const payload = await deleteBookmark(bookmark.id)
+    if (payload) {
+      setBookmarkList(
+        bookmarkList.filter((bookmark) => bookmark.id !== payload)
+      )
+    }
+  }
+
   return (
     <Container>
       <Space size={20} direction="vertical">
         <Space size={20} direction="horizontal">
-          <div className="bookmark-page">6</div>
-          <div className="bookmark-title">
-            사랑하라 한번도 상처받지 않은 것처럼
-          </div>
+          <div className="bookmark-page">{bookmark.bookpage}</div>
+          <div className="bookmark-title">{bookmark.title}</div>
         </Space>
         {DUMMY_COMMENT.map((comment, idx) => (
           <div className="comment" key={idx}>
@@ -40,6 +58,13 @@ const BookMark: React.FC<Props> = ({ prop }) => {
             <div className="comment-content">{comment.content}</div>
           </div>
         ))}
+        <Button
+          className="bookmark-delete-button"
+          onClick={() => deleteBookMarkAction()}
+          danger
+        >
+          삭제
+        </Button>
       </Space>
     </Container>
   )
