@@ -1,10 +1,15 @@
 import { Button, Space } from 'antd'
+import { useRouter } from 'next/router'
 import React from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
 import { deleteBookmark } from '../api/bookmark'
 import { DUMMY_COMMENT } from '../config'
-import { bookMarkListState } from '../recoil/book'
+import {
+  bookMarkListState,
+  currentBookMarkState,
+  currentBookState
+} from '../recoil/book'
 import { BookmarkType } from '../types/bookmark'
 
 const Container = styled.div`
@@ -12,6 +17,7 @@ const Container = styled.div`
   box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.3);
   background-color: #fff;
   padding: 20px;
+  cursor: pointer;
 
   .bookmark-page {
     display: flex;
@@ -34,6 +40,11 @@ type Props = {
 
 // 코멘트 fetch 해와야한다
 const BookMark: React.FC<Props> = ({ bookmark }) => {
+  const router = useRouter()
+  const currentBook = useRecoilValue(currentBookState)
+  const [currentBookMark, setCurrentBookMark] = useRecoilState(
+    currentBookMarkState
+  )
   const [bookmarkList, setBookmarkList] = useRecoilState(bookMarkListState)
 
   const deleteBookMarkAction = async () => {
@@ -45,8 +56,15 @@ const BookMark: React.FC<Props> = ({ bookmark }) => {
     }
   }
 
+  const showBookmarkAction = () => {
+    setCurrentBookMark(bookmark)
+  }
   return (
-    <Container>
+    <Container
+      onClick={() => {
+        showBookmarkAction()
+      }}
+    >
       <Space size={20} direction="vertical">
         <Space size={20} direction="horizontal">
           <div className="bookmark-page">{bookmark.bookpage}</div>
