@@ -11,7 +11,7 @@ import {
   NIGHT_BOOK_BG_HOVER_COLOR,
   NIGHT_FONT_COLOR
 } from '../config/day-night-mode'
-import { bookListState } from '../recoil/book'
+import { bookListState, currentBookState } from '../recoil/book'
 import { isDayState } from '../recoil/day-night'
 import { BookType } from '../types'
 import { Maybe } from './utils/Maybe'
@@ -94,10 +94,11 @@ const IMG_CONFIG = [
 ]
 
 type Props = {
-  book?: BookType
+  book: BookType
 }
 const Book: React.FC<Props> = ({ book }) => {
   const router = useRouter()
+  const [currentBook, setCurrentBook] = useRecoilState(currentBookState)
   const isDay = useRecoilValue(isDayState)
   const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
   const [userList, setUserList] = useState<string[]>([])
@@ -114,6 +115,7 @@ const Book: React.FC<Props> = ({ book }) => {
   }
 
   const linkToRoom = () => {
+    setCurrentBook(book)
     router.push(`/book/${book.id}`)
   }
 
