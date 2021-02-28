@@ -15,3 +15,13 @@ export const bookMarkListState = atom<BookmarkType[]>({
   key: 'bookMarkListState',
   default: []
 })
+
+export const currentBookState = atom<BookType>({
+  key: 'currentBookState',
+  default: undefined
+})
+
+export const currentBookMarkState = atom<BookmarkType>({
+  key: 'currentBookMarkSate',
+  default: undefined
+})
