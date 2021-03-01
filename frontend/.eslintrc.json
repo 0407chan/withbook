@@ -1,0 +1,30 @@
+{
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["react", "@typescript-eslint"],
+  "env": {
+    "es6": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "react/jsx-pascal-case": "off",
+    "no-empty-function":"off",
+    "@typescript-eslint/no-empty-function":"off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "no-nested-ternary": "off",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-alert": "off",
+    "consistent-return": "off"
+  }
+}
