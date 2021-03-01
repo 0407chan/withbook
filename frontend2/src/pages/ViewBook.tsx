@@ -1,0 +1,172 @@
+import { Space } from 'antd'
+import React, { useEffect, useRef } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import styled from 'styled-components'
+import API from '../api'
+import { fetchBook } from '../api/book'
+import { addBookmark } from '../api/bookmark'
+import BookMark from '../components/BookMark'
+import { Maybe } from '../components/utils/Maybe'
+import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../config/day-night-mode'
+import {
+  bookMarkListState,
+  currentBookMarkState,
+  currentBookState
+} from '../recoil/book'
+import { isDayState } from '../recoil/day-night'
+import type { BookType } from '../types'
+import { BookmarkBodyType, BookmarkType } from '../types/bookmark'
+
+type ContainerProps = {
+  isDay: boolean
+}
+const Container = styled.div<ContainerProps>`
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  transition: background-color 200ms ease;
+  background-color: ${(props) => (props.isDay ? DAY_BG_COLOR : NIGHT_BG_COLOR)};
+  flex-direction: row;
+  align-items: center;
+
+  .book-wrapper {
+    display: flex;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    height: 100%;
+    width: 100;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .book-add-container {
+      input {
+        margin-right: 20px;
+      }
+    }
+
+    .bookmark-add-button {
+      display: flex;
+      margin: 20px;
+      background-color: #fff;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+
+      transition: filter 200ms ease;
+      &:hover {
+        filter: brightness(0.7);
+      }
+    }
+  }
+
+  .bookmark-wrapper {
+    display: flex;
+    flex: 0 auto;
+    height: 100%;
+    width: 300px;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    border-left: 1px solid #393652;
+  }
+`
+
+type BookRoomProps = {}
+const BookRoom: React.FC<BookRoomProps> = ({}) => {
+  const isDay = useRecoilValue(isDayState)
+  const [bookmarks, setBookmarks] = useRecoilState<BookmarkType[]>(
+    bookMarkListState
+  )
+  const [currentBookMark, setCurrentBookMark] = useRecoilState(
+    currentBookMarkState
+  )
+  const [currentBook, setCurrentBook] = useRecoilState<BookType | undefined>(
+    currentBookState
+  )
+
+  const initBook = useRef(() => {})
+  initBook.current = async () => {
+    let bookId = undefined
+    if (currentBook === undefined) {
+      const path = window.location.pathname.split('/')
+      bookId = path[path.length - 1]
+    } else {
+      bookId = currentBook.id
+    }
+
+    const bookPayload = await fetchBook(Number(bookId))
+    setCurrentBook(bookPayload[0])
+    const bookMarkPayload = await API.Bookmark.fetchAllBookmarks(Number(bookId))
+    setBookmarks(bookMarkPayload)
+  }
+  useEffect(() => {
+    initBook.current()
+  }, [])
+
+  useEffect(() => {
+    console.log(currentBookMark)
+  }, [currentBookMark])
+
+  const router = useHistory()
+
+  const deleteBookAction = async () => {
+    const res = await API.Book.deleteBook(Number(currentBook!.id))
+    router.push('/')
+  }
+
+  const bookmarkAdd = async () => {
+    const randomNumber = Math.floor(Math.random() * 10) + 1
+    const params: BookmarkBodyType = {
+      bookId: Number(currentBook!.id),
+      bookpage: randomNumber,
+      title: '헤헤헿ㅎ'
+    }
+
+    const payload = await addBookmark(params)
+    setBookmarks([...bookmarks, payload[0]])
+  }
+
+  return (
+    <Container isDay={isDay}>
+      <div className="book-wrapper">
+        <div>
+          <h1>{currentBook?.title}</h1>
+        </div>
+        <div className="book-updatedAd">{currentBook?.updatedAt}</div>
+        <div className="book-userId">{currentBook?.userId}</div>
+        <Maybe is={bookmarks.length > 0}>
+          <Space
+            wrap
+            direction="horizontal"
+            size={20}
+            style={{ justifyContent: 'center' }}
+          >
+            {bookmarks.map((bookmark) => (
+              <BookMark key={bookmark.id} bookmark={bookmark}></BookMark>
+            ))}
+          </Space>
+        </Maybe>
+
+        <div className="bookmark-add-button" onClick={() => bookmarkAdd()}>
+          +
+        </div>
+      </div>
+
+      <div className="bookmark-wrapper">{currentBookMark?.id}</div>
+    </Container>
+  )
+}
+
+export default BookRoom
