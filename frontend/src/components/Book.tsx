@@ -136,13 +136,18 @@ const Book: React.FC<Props> = ({ book }) => {
 
   return (
     <Container isDay={isDay} image={book.image!} onClick={() => linkToRoom()}>
-      <img className="book-img" src={book.image} />
+      <img alt="book-img" className="book-img" src={book.image} />
       <div className="book-info">
         <div className="book-title">{book.title}</div>
         <Maybe is={userList.length > 0}>
           <div className="book-user-wrapper">
             {userList.map((user, idx) => (
-              <img key={idx} className="book-user-icon" src={user}></img>
+              <img
+                alt="user-icon"
+                key={idx}
+                className="book-user-icon"
+                src={user}
+              ></img>
             ))}
           </div>
         </Maybe>
