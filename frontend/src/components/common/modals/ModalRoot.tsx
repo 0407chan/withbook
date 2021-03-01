@@ -1,8 +1,8 @@
-import { ModalType } from '../../types/modal'
+import { ModalType } from '../../../types/modal'
 
 type ModalRootProps = {
   modalType: ModalType
-  modalProps: {}
+  modalProps: unknown
 }
 const ModalRoot: React.FC<ModalRootProps> = ({ modalType, modalProps }) => {
   if (modalType === null) {

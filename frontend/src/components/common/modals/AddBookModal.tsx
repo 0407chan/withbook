@@ -3,18 +3,18 @@ import Search from 'antd/lib/input/Search'
 import React, { useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import API from '../../api'
+import API from '../../../api'
 import {
   DAY_BG_COLOR,
   DAY_FONT_COLOR,
   NIGHT_BG_COLOR,
   NIGHT_FONT_COLOR
-} from '../../config/day-night-mode'
-import { bookListState, selectedBookState } from '../../recoil/book'
-import { isDayState } from '../../recoil/day-night'
-import { modalOpenState } from '../../recoil/modal'
-import { BookAddType, BookType, FetchBookType } from '../../types'
-import SearchBook from '../SearchBook'
+} from '../../../config/day-night-mode'
+import { bookListState, selectedBookState } from '../../../recoil/book'
+import { isDayState } from '../../../recoil/day-night'
+import { modalOpenState } from '../../../recoil/modal'
+import { BookAddType, BookType, FetchBookType } from '../../../types'
+import SearchBook from '../../SearchBook'
 
 type ContainerProps = {
   isDay: boolean
@@ -88,7 +88,7 @@ const AddBookModal: React.FC<Props> = ({ contents }) => {
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     event.stopPropagation()
-    // setSelectedBook()
+    setSelectedBook(undefined)
   }
 
   const setSearchKeywordAction = (value: string) => {
@@ -98,7 +98,6 @@ const AddBookModal: React.FC<Props> = ({ contents }) => {
     if (searchKeyword === '') return
     const payload = await API.Book.searchBook(searchKeyword)
     if (payload) {
-      console.log(payload)
       setSearchBookList(payload.filter((book) => book.thumbnail !== ''))
       setSearchKeyword('')
     }
