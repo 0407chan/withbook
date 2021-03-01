@@ -28,7 +28,7 @@ jobs:
           echo KAKAO_REST_API_KEY = ${{secrets.KAKAO_REST_API_KEY}}  >> .env
           cat .env  
           npm install
-          npm run deploy
+          npm run build
       - run: |
           cd backend
           npm install
