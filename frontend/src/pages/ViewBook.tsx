@@ -83,8 +83,7 @@ const Container = styled.div<ContainerProps>`
   }
 `
 
-type BookRoomProps = {}
-const BookRoom: React.FC<BookRoomProps> = ({}) => {
+const ViewBook: React.FC = () => {
   const isDay = useRecoilValue(isDayState)
   const [bookmarks, setBookmarks] = useRecoilState<BookmarkType[]>(
     bookMarkListState
@@ -169,4 +168,4 @@ const BookRoom: React.FC<BookRoomProps> = ({}) => {
   )
 }
 
-export default BookRoom
+export default ViewBook
