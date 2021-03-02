@@ -3,20 +3,17 @@ import React, { useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import API from '../api'
-import { fetchBook } from '../api/book'
-import { addBookmark } from '../api/bookmark'
-import BookMark from '../components/BookMark'
-import { Maybe } from '../components/utils/Maybe'
-import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../config/day-night-mode'
-import {
-  bookMarkListState,
-  currentBookMarkState,
-  currentBookState
-} from '../recoil/book'
-import { isDayState } from '../recoil/day-night'
-import type { BookType } from '../types'
-import { BookmarkBodyType, BookmarkType } from '../types/bookmark'
+import API from '../../api'
+import { fetchBook } from '../../api/book'
+import { addBookmark } from '../../api/bookmark'
+import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../../config/day-night-mode'
+import { bookMarkListState, currentBookState } from '../../recoil/book'
+import { isDayState } from '../../recoil/day-night'
+import type { BookType } from '../../types'
+import { BookmarkBodyType, BookmarkType } from '../../types/bookmark'
+import { Maybe } from '../utils/Maybe'
+import BookMark from './BookMark'
+import ViewBookMark from './viewBookMark'
 
 type ContainerProps = {
   isDay: boolean
@@ -24,7 +21,7 @@ type ContainerProps = {
 const Container = styled.div<ContainerProps>`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 60px);
 
   transition: background-color 200ms ease;
   background-color: ${(props) => (props.isDay ? DAY_BG_COLOR : NIGHT_BG_COLOR)};
@@ -88,9 +85,6 @@ const ViewBook: React.FC = () => {
   const [bookmarks, setBookmarks] = useRecoilState<BookmarkType[]>(
     bookMarkListState
   )
-  const [currentBookMark, setCurrentBookMark] = useRecoilState(
-    currentBookMarkState
-  )
   const [currentBook, setCurrentBook] = useRecoilState<BookType | undefined>(
     currentBookState
   )
@@ -98,25 +92,18 @@ const ViewBook: React.FC = () => {
   const initBook = useRef(() => {})
   initBook.current = async () => {
     let bookId = undefined
-    if (currentBook === undefined) {
-      const path = window.location.pathname.split('/')
-      bookId = path[path.length - 1]
-    } else {
-      bookId = currentBook.id
-    }
 
-    const bookPayload = await fetchBook(Number(bookId))
+    const path = window.location.pathname.split('/')
+    bookId = Number(path[path.length - 1])
+
+    const bookPayload = await fetchBook(bookId)
     setCurrentBook(bookPayload[0])
-    const bookMarkPayload = await API.Bookmark.fetchAllBookmarks(Number(bookId))
+    const bookMarkPayload = await API.Bookmark.fetchAllBookmarks(bookId)
     setBookmarks(bookMarkPayload)
   }
   useEffect(() => {
     initBook.current()
   }, [])
-
-  useEffect(() => {
-    console.log(currentBookMark)
-  }, [currentBookMark])
 
   const router = useHistory()
 
@@ -163,7 +150,7 @@ const ViewBook: React.FC = () => {
         </div>
       </div>
 
-      <div className="bookmark-wrapper">{currentBookMark?.id}</div>
+      <ViewBookMark></ViewBookMark>
     </Container>
   )
 }

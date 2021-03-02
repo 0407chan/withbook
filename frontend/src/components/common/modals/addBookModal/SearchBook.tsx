@@ -1,8 +1,8 @@
 import React from 'react'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-import { selectedBookState } from '../recoil/book'
-import { FetchBookType } from '../types'
+import { selectedBookState } from '../../../../recoil/book'
+import { FetchBookType } from '../../../../types'
 
 type ContainerProps = {
   image: string
@@ -40,12 +40,14 @@ const SearchBook: React.FC<Props> = ({ book }) => {
   const [selectedBook, setSelectedBook] = useRecoilState<
     FetchBookType | undefined
   >(selectedBookState)
+
   const setCurrentBookAction = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     setSelectedBook(book)
     event.stopPropagation()
   }
+
   return (
     <Container
       className={selectedBook?.isbn === book.isbn ? 'selected-book' : ''}
