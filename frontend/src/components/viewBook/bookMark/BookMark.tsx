@@ -3,14 +3,14 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { deleteBookmark } from '../../api/bookmark'
-import { DUMMY_COMMENT } from '../../config'
+import { deleteBookmark } from '../../../api/bookmark'
+import { DUMMY_COMMENT } from '../../../config'
 import {
   bookMarkListState,
   currentBookMarkState,
   currentBookState
-} from '../../recoil/book'
-import { BookmarkType } from '../../types/bookmark'
+} from '../../../recoil/book'
+import { BookmarkType } from '../../../types/bookmark'
 
 const Container = styled.div`
   display: flex;
@@ -32,6 +32,10 @@ const Container = styled.div`
 
   .bookmark-delete-button {
   }
+
+  &.current-bookmark {
+    background-color: red !important;
+  }
 `
 
 type Props = {
@@ -40,14 +44,17 @@ type Props = {
 
 // 코멘트 fetch 해와야한다
 const BookMark: React.FC<Props> = ({ bookmark }) => {
-  const router = useHistory()
+  const history = useHistory()
   const currentBook = useRecoilValue(currentBookState)
   const [currentBookMark, setCurrentBookMark] = useRecoilState(
     currentBookMarkState
   )
   const [bookmarkList, setBookmarkList] = useRecoilState(bookMarkListState)
 
-  const deleteBookMarkAction = async () => {
+  const deleteBookMarkAction = async (
+    e: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
+    e.stopPropagation()
     const payload = await deleteBookmark(bookmark.id)
     if (payload) {
       setBookmarkList(
@@ -57,13 +64,21 @@ const BookMark: React.FC<Props> = ({ bookmark }) => {
   }
 
   const showBookmarkAction = () => {
-    setCurrentBookMark(bookmark)
+    if (currentBookMark?.id === bookmark.id) {
+      history.push(`/book/${bookmark.bookId}`)
+      setCurrentBookMark(undefined)
+    } else {
+      history.push(`/book/${bookmark.bookId}/bookmark/${bookmark.id}`)
+      setCurrentBookMark(bookmark)
+    }
   }
+
   return (
     <Container
       onClick={() => {
         showBookmarkAction()
       }}
+      className={currentBookMark?.id === bookmark.id ? 'current-bookmark' : ''}
     >
       <Space size={20} direction="vertical">
         <Space size={20} direction="horizontal">
@@ -78,7 +93,7 @@ const BookMark: React.FC<Props> = ({ bookmark }) => {
         ))}
         <Button
           className="bookmark-delete-button"
-          onClick={() => deleteBookMarkAction()}
+          onClick={(e) => deleteBookMarkAction(e)}
           danger
         >
           삭제
