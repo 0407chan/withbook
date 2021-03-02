@@ -11,6 +11,11 @@ const App: React.FC = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/book/:id" component={ViewBook} />
+        <Route
+          exact
+          path="/book/:id/bookmark/:bookmarkId"
+          component={ViewBook}
+        />
       </Switch>
     </Router>
   )
