@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Header from './components/common/Header'
 import Home from './components/home'
-import ViewBook from './pages/ViewBook'
+import ViewBook from './components/viewBook'
 
 const App: React.FC = () => {
   return (

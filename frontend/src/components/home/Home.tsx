@@ -6,8 +6,8 @@ import { fetchAllBooks } from '../../api/book'
 import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../../config/day-night-mode'
 import { isDayState } from '../../recoil/day-night'
 import type { BookType } from '../../types'
-import Book from '../Book'
 import AddBookButton from '../common/AddBookButton'
+import Book from './Book'
 type ContainerProps = {
   isDay: boolean
 }
