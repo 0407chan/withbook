@@ -12,7 +12,9 @@ import {
   NIGHT_BG_COLOR,
   NIGHT_FONT_COLOR
 } from '../../config/day-night-mode'
+import { bookMarkListState, currentBookMarkState } from '../../recoil/book'
 import { isDayState } from '../../recoil/day-night'
+import { BookmarkType } from '../../types/bookmark'
 
 type ContainerProps = {
   isDay: boolean
@@ -77,18 +79,24 @@ type Props = {
 const Header: React.FC<Props> = ({ prop }) => {
   const [isDay, setIsDay] = useRecoilState<boolean>(isDayState)
   const router = useHistory()
-
-  const addNewBook = () => {
-    console.log('새로 넣자!')
-  }
+  const [currentBookMark, setCurrentBookMark] = useRecoilState(
+    currentBookMarkState
+  )
+  const [bookmarks, setBookmarks] = useRecoilState<BookmarkType[]>(
+    bookMarkListState
+  )
 
   const toggleDayNight = () => {
     console.log(isDay ? '아침이네' : '밤이네')
     setIsDay(!isDay)
   }
+
   const goHome = () => {
+    setCurrentBookMark(undefined)
+    setBookmarks([])
     router.push(`/`)
   }
+
   return (
     <Container isDay={isDay}>
       <Space
