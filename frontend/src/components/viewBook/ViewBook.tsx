@@ -7,12 +7,16 @@ import API from '../../api'
 import { fetchBook } from '../../api/book'
 import { addBookmark } from '../../api/bookmark'
 import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../../config/day-night-mode'
-import { bookMarkListState, currentBookState } from '../../recoil/book'
+import {
+  bookMarkListState,
+  currentBookMarkState,
+  currentBookState
+} from '../../recoil/book'
 import { isDayState } from '../../recoil/day-night'
 import type { BookType } from '../../types'
 import { BookmarkBodyType, BookmarkType } from '../../types/bookmark'
 import { Maybe } from '../utils/Maybe'
-import BookMark from './BookMark'
+import BookMark from './bookMark'
 import ViewBookMark from './viewBookMark'
 
 type ContainerProps = {
@@ -81,9 +85,13 @@ const Container = styled.div<ContainerProps>`
 `
 
 const ViewBook: React.FC = () => {
+  const history = useHistory()
   const isDay = useRecoilValue(isDayState)
   const [bookmarks, setBookmarks] = useRecoilState<BookmarkType[]>(
     bookMarkListState
+  )
+  const [currentBookMark, setCurrentBookMark] = useRecoilState(
+    currentBookMarkState
   )
   const [currentBook, setCurrentBook] = useRecoilState<BookType | undefined>(
     currentBookState
@@ -91,25 +99,29 @@ const ViewBook: React.FC = () => {
 
   const initBook = useRef(() => {})
   initBook.current = async () => {
-    let bookId = undefined
-
     const path = window.location.pathname.split('/')
-    bookId = Number(path[path.length - 1])
+    const bookId = Number(path[2])
+    const bookMarkId = Number(path[path.length - 1])
 
     const bookPayload = await fetchBook(bookId)
     setCurrentBook(bookPayload[0])
     const bookMarkPayload = await API.Bookmark.fetchAllBookmarks(bookId)
     setBookmarks(bookMarkPayload)
+
+    const existBookMark = bookMarkPayload.find(
+      (bookmark) => bookmark.id === bookMarkId
+    )
+    if (existBookMark) {
+      setCurrentBookMark(existBookMark)
+    }
   }
   useEffect(() => {
     initBook.current()
-  }, [])
-
-  const router = useHistory()
+  }, [window.location.pathname])
 
   const deleteBookAction = async () => {
     const res = await API.Book.deleteBook(Number(currentBook!.id))
-    router.push('/')
+    history.push('/')
   }
 
   const bookmarkAdd = async () => {
@@ -133,12 +145,7 @@ const ViewBook: React.FC = () => {
         <div className="book-updatedAd">{currentBook?.updatedAt}</div>
         <div className="book-userId">{currentBook?.userId}</div>
         <Maybe is={bookmarks.length > 0}>
-          <Space
-            wrap
-            direction="horizontal"
-            size={20}
-            style={{ justifyContent: 'center' }}
-          >
+          <Space wrap direction="horizontal" size={20}>
             {bookmarks.map((bookmark) => (
               <BookMark key={bookmark.id} bookmark={bookmark}></BookMark>
             ))}
@@ -150,7 +157,7 @@ const ViewBook: React.FC = () => {
         </div>
       </div>
 
-      <ViewBookMark></ViewBookMark>
+      <ViewBookMark />
     </Container>
   )
 }
