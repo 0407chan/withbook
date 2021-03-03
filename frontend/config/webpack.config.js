@@ -683,36 +683,37 @@ module.exports = function (webpackEnv) {
           maximumFileSizeToCacheInBytes: 5 * 1024 * 1024
         }),
       // TypeScript type checking
-      // useTypeScript &&
-      //   new ForkTsCheckerWebpackPlugin({
-      //     typescript: resolve.sync('typescript', {
-      //       basedir: paths.appNodeModules,
-      //     }),
-      //     async: isEnvDevelopment,
-      //     checkSyntacticErrors: true,
-      //     resolveModuleNameModule: process.versions.pnp
-      //       ? `${__dirname}/pnpTs.js`
-      //       : undefined,
-      //     resolveTypeReferenceDirectiveModule: process.versions.pnp
-      //       ? `${__dirname}/pnpTs.js`
-      //       : undefined,
-      //     tsconfig: paths.appTsConfig,
-      //     reportFiles: [
-      //       // This one is specifically to match during CI tests,
-      //       // as micromatch doesn't match
-      //       // '../cra-template-typescript/template/src/App.tsx'
-      //       // otherwise.
-      //       '../**/src/**/*.{ts,tsx}',
-      //       '**/src/**/*.{ts,tsx}',
-      //       '!**/src/**/__tests__/**',
-      //       '!**/src/**/?(*.)(spec|test).*',
-      //       '!**/src/setupProxy.*',
-      //       '!**/src/setupTests.*',
-      //     ],
-      //     silent: true,
-      //     // The formatter is invoked directly in WebpackDevServerUtils during development
-      //     formatter: isEnvProduction ? typescriptFormatter : undefined,
-      //   }),
+      isEnvDevelopment &&
+        useTypeScript &&
+        new ForkTsCheckerWebpackPlugin({
+          typescript: resolve.sync('typescript', {
+            basedir: paths.appNodeModules
+          }),
+          async: isEnvDevelopment,
+          checkSyntacticErrors: true,
+          resolveModuleNameModule: process.versions.pnp
+            ? `${__dirname}/pnpTs.js`
+            : undefined,
+          resolveTypeReferenceDirectiveModule: process.versions.pnp
+            ? `${__dirname}/pnpTs.js`
+            : undefined,
+          tsconfig: paths.appTsConfig,
+          reportFiles: [
+            // This one is specifically to match during CI tests,
+            // as micromatch doesn't match
+            // '../cra-template-typescript/template/src/App.tsx'
+            // otherwise.
+            '../**/src/**/*.{ts,tsx}',
+            '**/src/**/*.{ts,tsx}',
+            '!**/src/**/__tests__/**',
+            '!**/src/**/?(*.)(spec|test).*',
+            '!**/src/setupProxy.*',
+            '!**/src/setupTests.*'
+          ],
+          silent: true,
+          // The formatter is invoked directly in WebpackDevServerUtils during development
+          formatter: isEnvProduction ? typescriptFormatter : undefined
+        }),
       !disableESLintPlugin &&
         new ESLintPlugin({
           // Plugin options
