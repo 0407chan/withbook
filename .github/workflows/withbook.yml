@@ -32,12 +32,14 @@ jobs:
       - run: |
           cd backend
           npm install
+          npm run prisma
           npm run build
       
       - name: Create env file
         run: |
           cd backend
           touch .env
+          echo DATABASE_URL = ${{secrets.DATABASE_URL }} >> .env
           echo DB_HOST = ${{ secrets.DB_HOST }} >> .env
           echo DB_USER = ${{ secrets.DB_USER }} >> .env
           echo DB_NAME = ${{ secrets.DB_NAME }} >> .env
