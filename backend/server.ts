@@ -1,3 +1,4 @@
+import appRootPath from 'app-root-path'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -17,6 +18,10 @@ app.use(
     limit: '50mb'
   })
 )
+
+app.use('/', express.static(appRootPath.resolve('/public')))
+app.use('/home', express.static(appRootPath.resolve('/public')))
+app.use('/book/*', express.static(appRootPath.resolve('/public')))
 
 app.use(router)
 
