@@ -94,7 +94,9 @@ const Header: React.FC<Props> = ({ prop }) => {
   const goHome = () => {
     setCurrentBookMark(undefined)
     setBookmarks([])
-    router.push(`/`)
+
+    // 로그인 돼있으면 home, 아니면 landing
+    router.push(`/home`)
   }
 
   return (
