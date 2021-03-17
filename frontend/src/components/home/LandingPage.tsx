@@ -34,12 +34,8 @@ const Container = styled.div`
   }
 `
 
-type Props = {
-  LandingPage: any
-}
-
 // 코멘트 fetch 해와야한다
-const LandingPage: React.FC<Props> = ({ LandingPage }) => {
+const LandingPage: React.FC = () => {
   const history = useHistory()
 
   const showLoginModal = () => {
