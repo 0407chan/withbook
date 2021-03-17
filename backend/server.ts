@@ -1,11 +1,10 @@
-import appRootPath from 'app-root-path'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import { format } from 'date-fns'
 import express from 'express'
 import morgan from 'morgan'
 import router from './routes'
-import cors from 'cors'
 const app = express()
 const port = 3010
 
@@ -19,7 +18,6 @@ app.use(
   })
 )
 
-app.use(express.static(appRootPath.resolve('/public')))
 app.use(router)
 
 app.listen(port, () => {
