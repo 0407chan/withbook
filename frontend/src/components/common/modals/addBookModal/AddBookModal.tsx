@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
 import API from '../../../../api'
+import { searchBook } from '../../../../api/kakaoApi'
 import {
   DAY_BG_COLOR,
   DAY_FONT_COLOR,
@@ -96,7 +97,7 @@ const AddBookModal: React.FC<Props> = ({ contents }) => {
   }
   const bookSearchAction = async () => {
     if (searchKeyword === '') return
-    const payload = await API.Book.searchBook(searchKeyword)
+    const payload = await searchBook(searchKeyword)
     if (payload) {
       setSearchBookList(payload.filter((book) => book.thumbnail !== ''))
       setSearchKeyword('')
