@@ -7,6 +7,8 @@ import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../../config/day-night-mode'
 import { isDayState } from '../../recoil/day-night'
 import type { BookType } from '../../types'
 import AddBookButton from '../common/AddBookButton'
+import Modal from '../common/Modal'
+import AddBookModal from '../common/modals/addBookModal'
 import Book from './Book'
 type ContainerProps = {
   isDay: boolean
@@ -67,7 +69,7 @@ const Home: React.FC = () => {
       </Space>
 
       <AddBookButton></AddBookButton>
-      {/* <Modal contents={<AddBookModal />}></Modal> */}
+      <Modal contents={<AddBookModal />}></Modal>
     </Container>
   )
 }
