@@ -6,7 +6,7 @@ import { pool } from '../utils/db-connection-handler'
 export const getAllBookmark = async (req: Request, res: Response) => {
   const dbConnect = await pool.getConnection()
   const bookId = Number(req.params.id)
-  const query = `select * from withbook.bookmark where bookId=${bookId} order by bookpage`
+  const query = `select * from withbook.bookmark where book_id=${bookId} order by bookpage`
   const resQuery = await dbConnect.query(query)
   dbConnect.release()
   res.json(resQuery[0])
@@ -30,7 +30,7 @@ export const addBookmark = async (req: Request, res: Response) => {
   const query = `INSERT INTO withbook.bookmark SET ?`
   const params = {
     id: null,
-    bookId: bookId,
+    book_id: bookId,
     createdAt: `${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}`,
     updatedAt: `${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}`,
     bookpage: bookpage,
