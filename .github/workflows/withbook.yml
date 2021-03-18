@@ -25,7 +25,7 @@ jobs:
       - run: |
           cd frontend
           touch .env
-          echo KAKAO_REST_API_KEY = ${{secrets.KAKAO_REST_API_KEY}}  >> .env
+          echo REACT_APP_KAKAO_REST_API_KEY = ${{secrets.REACT_APP_KAKAO_REST_API_KEY}}  >> .env
           cat .env  
           npm install
           npm run build
