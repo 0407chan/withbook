@@ -1,17 +1,10 @@
+import { PlusOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
 import { zIndexConfig } from '../../config'
-import { PlusOutlined } from '@ant-design/icons'
-import {
-  DAY_BG_COLOR,
-  DAY_FONT_COLOR,
-  NIGHT_BG_COLOR,
-  NIGHT_FONT_COLOR
-} from '../../config/day-night-mode'
 import { isDayState } from '../../recoil/day-night'
 import { modalOpenState } from '../../recoil/modal'
-import Modal from './Modal'
 
 export const ADD_BOOK_BUTTON_BG_COLOR_DAY = '#c7e3fc'
 export const ADD_BOOK_BUTTON_BG_COLOR_NIGHT = '#fff2dc'
