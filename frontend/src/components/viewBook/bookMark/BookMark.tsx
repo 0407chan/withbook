@@ -65,10 +65,10 @@ const BookMark: React.FC<Props> = ({ bookmark }) => {
 
   const showBookmarkAction = () => {
     if (currentBookMark?.id === bookmark.id) {
-      history.push(`/book/${bookmark.bookId}`)
+      history.push(`/book/${currentBook!.id}`)
       setCurrentBookMark(undefined)
     } else {
-      history.push(`/book/${bookmark.bookId}/bookmark/${bookmark.id}`)
+      history.push(`/book/${currentBook!.id}/bookmark/${bookmark.id}`)
       setCurrentBookMark(bookmark)
     }
   }
