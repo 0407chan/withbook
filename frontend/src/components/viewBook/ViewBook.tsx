@@ -120,14 +120,17 @@ const ViewBook: React.FC = () => {
   }, [window.location.pathname])
 
   const deleteBookAction = async () => {
-    const res = await API.Book.deleteBook(Number(currentBook!.id))
+    if (currentBook === undefined) return
+    await API.Book.deleteBook(Number(currentBook.id))
     history.push('/')
   }
 
   const bookmarkAdd = async () => {
+    if (currentBook === undefined) return
+
     const randomNumber = Math.floor(Math.random() * 10) + 1
     const params: BookmarkBodyType = {
-      bookId: Number(currentBook!.id),
+      bookId: Number(currentBook.id),
       bookpage: randomNumber,
       title: '헤헤헿ㅎ'
     }

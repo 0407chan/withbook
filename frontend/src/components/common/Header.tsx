@@ -73,10 +73,7 @@ const DayNightButton = styled.div<DayNightButtonProps>`
   }
 `
 
-type Props = {
-  prop?: string
-}
-const Header: React.FC<Props> = ({ prop }) => {
+const Header: React.FC = () => {
   const [isDay, setIsDay] = useRecoilState<boolean>(isDayState)
   const router = useHistory()
   const [currentBookMark, setCurrentBookMark] = useRecoilState(
@@ -87,7 +84,7 @@ const Header: React.FC<Props> = ({ prop }) => {
   )
 
   const toggleDayNight = () => {
-    console.log(isDay ? '아침이네' : '밤이네')
+    // console.log(isDay ? '아침이네' : '밤이네')
     setIsDay(!isDay)
   }
 

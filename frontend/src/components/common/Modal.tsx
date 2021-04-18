@@ -1,10 +1,9 @@
 import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { PlusOutlined } from '@ant-design/icons'
+import { zIndexConfig } from '../../config'
 import { isDayState } from '../../recoil/day-night'
 import { modalOpenState } from '../../recoil/modal'
-import { zIndexConfig } from '../../config'
 
 export const ADD_BOOK_BUTTON_BG_COLOR_DAY = '#c7e3fc'
 export const ADD_BOOK_BUTTON_BG_COLOR_NIGHT = '#fff2dc'
@@ -45,7 +44,7 @@ const Modal: React.FC<Props> = ({ contents }) => {
   const isDay = useRecoilValue<boolean>(isDayState)
   const [isModalOpen, setIsModalOpen] = useRecoilState<boolean>(modalOpenState)
   const closeModal = () => {
-    console.log('모달 닫기!')
+    // console.log('모달 닫기!')
     setIsModalOpen(false)
   }
 

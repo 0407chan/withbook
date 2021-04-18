@@ -64,10 +64,7 @@ const Container = styled.div<ContainerProps>`
   }
 `
 
-type Props = {
-  contents?: React.ReactNode
-}
-const AddBookModal: React.FC<Props> = ({ contents }) => {
+const AddBookModal: React.FC = () => {
   const isDay = useRecoilValue<boolean>(isDayState)
   const [searchBookList, setSearchBookList] = useState<FetchBookType[]>([])
   const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
@@ -104,9 +101,10 @@ const AddBookModal: React.FC<Props> = ({ contents }) => {
     }
   }
   const addNewRoomAction = async () => {
+    if (selectedBook === undefined) return
     const params: BookAddType = {
-      title: selectedBook!.title,
-      image: selectedBook!.thumbnail
+      title: selectedBook.title,
+      image: selectedBook.thumbnail
     }
 
     const payload = await API.Book.addBook(params)

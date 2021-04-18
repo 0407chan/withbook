@@ -43,10 +43,7 @@ const Container = styled.div<ContainerProps>`
   }
 `
 
-type Props = {
-  prop?: string
-}
-const AddBookButton: React.FC<Props> = ({ prop }) => {
+const AddBookButton: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState<boolean>(modalOpenState)
 
   const isDay = useRecoilValue<boolean>(isDayState)

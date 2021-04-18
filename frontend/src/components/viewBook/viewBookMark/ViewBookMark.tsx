@@ -46,7 +46,7 @@ const ViewBookMark: React.FC<Props> = () => {
   // fetch Comment
   const initComment = useRef(() => {})
   initComment.current = () => {
-    console.log('코멘트 fetch')
+    // console.log('코멘트 fetch')
   }
 
   useEffect(() => {

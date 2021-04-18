@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { deleteBook } from '../../api/book'
 import {
   DAY_BOOK_BG_COLOR,
   DAY_BOOK_BG_HOVER_COLOR,
@@ -11,7 +10,6 @@ import {
   NIGHT_BOOK_BG_HOVER_COLOR,
   NIGHT_FONT_COLOR
 } from '../../config/day-night-mode'
-import { bookListState } from '../../recoil/book'
 import { isDayState } from '../../recoil/day-night'
 import { BookType } from '../../types'
 import { Maybe } from '../utils/Maybe'
@@ -99,19 +97,19 @@ type Props = {
 const Book: React.FC<Props> = ({ book }) => {
   const router = useHistory()
   const isDay = useRecoilValue(isDayState)
-  const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
+  // const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
   const [userList, setUserList] = useState<string[]>([])
-  const deleteBookAction = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    id: number
-  ) => {
-    e.stopPropagation()
-    const res = await deleteBook(id)
-    if (res > 0) {
-      const newBookList = bookList.filter((book) => book.id !== id)
-      setBookList(newBookList)
-    }
-  }
+  // const deleteBookAction = async (
+  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  //   id: number
+  // ) => {
+  //   e.stopPropagation()
+  //   const res = await deleteBook(id)
+  //   if (res > 0) {
+  //     const newBookList = bookList.filter((book) => book.id !== id)
+  //     setBookList(newBookList)
+  //   }
+  // }
 
   const linkToRoom = () => {
     router.push(`/book/${book.id}`)
@@ -131,7 +129,11 @@ const Book: React.FC<Props> = ({ book }) => {
   }, [])
 
   return (
-    <Container isDay={isDay} image={book.image!} onClick={() => linkToRoom()}>
+    <Container
+      isDay={isDay}
+      image={book.image ? book.image : ''}
+      onClick={() => linkToRoom()}
+    >
       <img alt="book-img" className="book-img" src={book.image} />
       <div className="book-info">
         <div className="book-title">{book.title}</div>
