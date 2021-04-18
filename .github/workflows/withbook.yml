@@ -24,20 +24,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           cd frontend
-          touch .env
+          touch .env.production
           echo REACT_APP_KAKAO_REST_API_KEY = ${{secrets.REACT_APP_KAKAO_REST_API_KEY}}  >> .env
-          cat .env  
+          cat .env.production
           npm install
           npm run build
+          rm -rf ../backend/build
+          mv build ../backend
+
       - run: |
           cd backend
-          npm install
-          npm run prisma:generate
-          npm run build
-      
-      - name: Create env file
-        run: |
-          cd backend
+
           touch .env
           echo DATABASE_URL = ${{secrets.DATABASE_URL }} >> .env
           echo DB_HOST = ${{ secrets.DB_HOST }} >> .env
@@ -45,7 +42,11 @@ jobs:
           echo DB_NAME = ${{ secrets.DB_NAME }} >> .env
           echo DB_PASS = ${{ secrets.DB_PASS }} >> .env
           cat .env
-          
+
+          npm install
+          npm run prisma:generate
+          npm run build
+      
       - name: Restart Pm2
         run: |
           pm2 restart withbook

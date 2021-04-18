@@ -1,0 +1,22 @@
+{
+"compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+        "@/components": ["./components"],
+        "@/components/*": ["./components/*"],
+        "@/reducers": ["./reducers"],
+        "@/reducers/*": ["./reducers/*"],
+        "@/api/*": ["./api/*"],
+        "@/config": ["./config"],
+        "@/config/*": ["./config/*"],
+        "@/types": ["./types"],
+        "@/types/*": ["./types/*"],
+        "@/common": ["./components/common"],
+        "@/common/*": ["./components/common/*"],
+        "@/modals": ["./components/modals"],
+        "@/modals/*": ["./components/modals/*"],
+        "@/utils": ["./utils"],
+        "@/utils/*": ["./utils/*"]
+    }
+}
+}

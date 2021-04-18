@@ -40,7 +40,7 @@ const Container = styled.div`
 type Props = unknown
 
 // 코멘트 fetch 해와야한다
-const ViewBookMark: React.FC<Props> = ({}) => {
+const ViewBookMark: React.FC<Props> = () => {
   const currentBookMark = useRecoilValue(currentBookMarkState)
 
   // fetch Comment

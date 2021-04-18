@@ -114,9 +114,9 @@ const Header: React.FC<Props> = ({ prop }) => {
         </div>
         <DayNightButton isDay={isDay} onClick={() => toggleDayNight()}>
           {isDay ? (
-            <img width="30px" src="/image/moon.png" />
+            <img alt="night-png" width="30px" src="/image/moon.png" />
           ) : (
-            <img width="30px" src="/image/sun.png" />
+            <img alt="sun-png" width="30px" src="/image/sun.png" />
           )}
         </DayNightButton>
       </Space>

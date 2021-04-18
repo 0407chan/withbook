@@ -1,5 +1,5 @@
-import type { BookType, Comment } from '../types'
 import { format } from 'date-fns'
+import type { BookType, Comment } from '../types'
 
 export const zIndexConfig = {
   header: 10,

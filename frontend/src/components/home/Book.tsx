@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import API from '../../api'
+import { deleteBook } from '../../api/book'
 import {
   DAY_BOOK_BG_COLOR,
   DAY_BOOK_BG_HOVER_COLOR,
@@ -106,7 +106,7 @@ const Book: React.FC<Props> = ({ book }) => {
     id: number
   ) => {
     e.stopPropagation()
-    const res = await API.Book.deleteBook(id)
+    const res = await deleteBook(id)
     if (res > 0) {
       const newBookList = bookList.filter((book) => book.id !== id)
       setBookList(newBookList)
