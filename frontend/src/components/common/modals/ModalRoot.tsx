@@ -1,3 +1,4 @@
+import React from 'react'
 import { ModalType } from '../../../types/modal'
 
 type ModalRootProps = {

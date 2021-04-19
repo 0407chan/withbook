@@ -1,16 +1,17 @@
-import { Button, Space } from 'antd'
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import styled from 'styled-components'
-import { deleteBookmark } from '../../../api/bookmark'
-import { DUMMY_COMMENT } from '../../../config'
+import { deleteBookmark } from '@/api/bookmark'
+import { DUMMY_COMMENT } from '@/config'
 import {
   bookMarkListState,
   currentBookMarkState,
   currentBookState
-} from '../../../recoil/book'
-import { BookmarkType } from '../../../types/bookmark'
+} from '@/recoil/book'
+import { BookmarkType } from '@/types/bookmark'
+import Button from 'antd/lib/button'
+import Space from 'antd/lib/space'
+import React from 'react'
+import { useHistory } from 'react-router-dom'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import styled from 'styled-components'
 
 const Container = styled.div`
   display: flex;

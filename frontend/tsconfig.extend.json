@@ -2,21 +2,23 @@
 "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-        "@/components": ["./components"],
-        "@/components/*": ["./components/*"],
-        "@/reducers": ["./reducers"],
-        "@/reducers/*": ["./reducers/*"],
         "@/api/*": ["./api/*"],
         "@/config": ["./config"],
         "@/config/*": ["./config/*"],
         "@/types": ["./types"],
         "@/types/*": ["./types/*"],
+        "@/pages": ["./pages"],
+        "@/pages/*": ["./pages/*"],
+        "@/components": ["./components"],
+        "@/components/*": ["./components/*"],
         "@/common": ["./components/common"],
         "@/common/*": ["./components/common/*"],
-        "@/modals": ["./components/modals"],
-        "@/modals/*": ["./components/modals/*"],
+        "@/modals": ["./components/common/modals"],
+        "@/modals/*": ["./components/common/modals/*"],
         "@/utils": ["./utils"],
-        "@/utils/*": ["./utils/*"]
+        "@/utils/*": ["./utils/*"],
+        "@/recoil": ["./recoil"],
+        "@/recoil/*": ["./recoil/*"]
     }
 }
 }

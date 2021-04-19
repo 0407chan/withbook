@@ -1,20 +1,19 @@
+import { deleteBook, fetchBook } from '@/api/book'
+import { addBookmark, fetchAllBookmarks } from '@/api/bookmark'
+import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '@/config/day-night-mode'
+import {
+  bookMarkListState,
+  currentBookMarkState,
+  currentBookState
+} from '@/recoil/book'
+import { isDayState } from '@/recoil/day-night'
+import type { BookType } from '@/types'
+import { BookmarkBodyType, BookmarkType } from '@/types/bookmark'
 import { Space } from 'antd'
 import React, { useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import API from '../../api'
-import { fetchBook } from '../../api/book'
-import { addBookmark } from '../../api/bookmark'
-import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '../../config/day-night-mode'
-import {
-  bookMarkListState,
-  currentBookMarkState,
-  currentBookState
-} from '../../recoil/book'
-import { isDayState } from '../../recoil/day-night'
-import type { BookType } from '../../types'
-import { BookmarkBodyType, BookmarkType } from '../../types/bookmark'
 import { Maybe } from '../utils/Maybe'
 import BookMark from './bookMark'
 import ViewBookMark from './viewBookMark'
@@ -105,7 +104,7 @@ const ViewBook: React.FC = () => {
 
     const bookPayload = await fetchBook(bookId)
     setCurrentBook(bookPayload[0])
-    const bookMarkPayload = await API.Bookmark.fetchAllBookmarks(bookId)
+    const bookMarkPayload = await fetchAllBookmarks(bookId)
     setBookmarks(bookMarkPayload)
 
     const existBookMark = bookMarkPayload.find(
@@ -121,7 +120,7 @@ const ViewBook: React.FC = () => {
 
   const deleteBookAction = async () => {
     if (currentBook === undefined) return
-    await API.Book.deleteBook(Number(currentBook.id))
+    await deleteBook(Number(currentBook.id))
     history.push('/')
   }
 

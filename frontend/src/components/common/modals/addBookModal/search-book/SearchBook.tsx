@@ -1,8 +1,8 @@
+import { selectedBookState } from '@/recoil/book'
+import { FetchBookType } from '@/types'
 import React from 'react'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-import { selectedBookState } from '../../../../recoil/book'
-import { FetchBookType } from '../../../../types'
 
 type ContainerProps = {
   image: string

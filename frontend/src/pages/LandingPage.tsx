@@ -1,8 +1,8 @@
+import { NIGHT } from '@/config/day-night-mode'
 import Button from 'antd/lib/button/button'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { NIGHT } from '../../config/day-night-mode'
 
 const Container = styled.div`
   display: flex;
