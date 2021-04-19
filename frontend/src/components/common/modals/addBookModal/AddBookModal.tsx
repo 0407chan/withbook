@@ -1,21 +1,21 @@
-import { Space } from 'antd'
-import Search from 'antd/lib/input/Search'
-import React, { useState } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import styled from 'styled-components'
-import API from '../../../../api'
-import { searchBook } from '../../../../api/kakaoApi'
+import { addBook } from '@/api/book'
+import { searchBook } from '@/api/kakaoApi'
 import {
   DAY_BG_COLOR,
   DAY_FONT_COLOR,
   NIGHT_BG_COLOR,
   NIGHT_FONT_COLOR
-} from '../../../../config/day-night-mode'
-import { bookListState, selectedBookState } from '../../../../recoil/book'
-import { isDayState } from '../../../../recoil/day-night'
-import { modalOpenState } from '../../../../recoil/modal'
-import { BookAddType, BookType, FetchBookType } from '../../../../types'
-import SearchBook from './SearchBook'
+} from '@/config/day-night-mode'
+import { bookListState, selectedBookState } from '@/recoil/book'
+import { isDayState } from '@/recoil/day-night'
+import { modalOpenState } from '@/recoil/modal'
+import { BookAddType, BookType, FetchBookType } from '@/types'
+import { Space } from 'antd'
+import Search from 'antd/lib/input/Search'
+import React, { useState } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import styled from 'styled-components'
+import SearchBook from './search-book/SearchBook'
 
 type ContainerProps = {
   isDay: boolean
@@ -107,7 +107,7 @@ const AddBookModal: React.FC = () => {
       image: selectedBook.thumbnail
     }
 
-    const payload = await API.Book.addBook(params)
+    const payload = await addBook(params)
     setBookList([...bookList, payload[0]])
     closeModal()
   }

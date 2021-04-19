@@ -1,7 +1,7 @@
+import { currentBookMarkState } from '@/recoil/book'
 import React, { useEffect, useRef } from 'react'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { currentBookMarkState } from '../../../recoil/book'
 
 const Container = styled.div`
   display: flex;

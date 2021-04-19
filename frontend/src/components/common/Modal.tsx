@@ -1,9 +1,9 @@
+import { zIndexConfig } from '@/config'
+import { isDayState } from '@/recoil/day-night'
+import { modalOpenState } from '@/recoil/modal'
 import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { zIndexConfig } from '../../config'
-import { isDayState } from '../../recoil/day-night'
-import { modalOpenState } from '../../recoil/modal'
 
 export const ADD_BOOK_BUTTON_BG_COLOR_DAY = '#c7e3fc'
 export const ADD_BOOK_BUTTON_BG_COLOR_NIGHT = '#fff2dc'

@@ -1,9 +1,4 @@
-import { Space } from 'antd'
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
-import styled from 'styled-components'
-import { zIndexConfig } from '../../config'
+import { zIndexConfig } from '@/config'
 import {
   DAY,
   DAY_BG_COLOR,
@@ -11,10 +6,15 @@ import {
   NIGHT,
   NIGHT_BG_COLOR,
   NIGHT_FONT_COLOR
-} from '../../config/day-night-mode'
-import { bookMarkListState, currentBookMarkState } from '../../recoil/book'
-import { isDayState } from '../../recoil/day-night'
-import { BookmarkType } from '../../types/bookmark'
+} from '@/config/day-night-mode'
+import { bookMarkListState, currentBookMarkState } from '@/recoil/book'
+import { isDayState } from '@/recoil/day-night'
+import { BookmarkType } from '@/types/bookmark'
+import Space from 'antd/lib/space'
+import React from 'react'
+import { useHistory } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import styled from 'styled-components'
 
 type ContainerProps = {
   isDay: boolean
