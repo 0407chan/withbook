@@ -22,19 +22,30 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: |
+
+
+      - name: create frontend env file
+        run: |
           cd frontend
           touch .env.production
           echo REACT_APP_KAKAO_REST_API_KEY = ${{secrets.REACT_APP_KAKAO_REST_API_KEY}}  >> .env
           cat .env.production
+
+      - name: frontend install dependencies & build
+        run: |
+          cd frontend
           npm install
           npm run build
+
+      - name: move build file to backend
+        run: |
+          cd frontend
           rm -rf ../backend/build
           mv build ../backend
 
+      - name: create backend end file
       - run: |
           cd backend
-
           touch .env
           echo DATABASE_URL = ${{secrets.DATABASE_URL }} >> .env
           echo DB_HOST = ${{ secrets.DB_HOST }} >> .env
@@ -43,6 +54,8 @@ jobs:
           echo DB_PASS = ${{ secrets.DB_PASS }} >> .env
           cat .env
 
+      - name: backend install dependencies & build
+          cd backend
           npm install
           npm run prisma:generate
           npm run build
