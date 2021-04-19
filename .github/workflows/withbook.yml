@@ -39,8 +39,8 @@ jobs:
       - name: move build file to backend
         run: |
           cd frontend
-          rm -rf ../backend/build
-          mv build ../backend
+          rm -rf ../backend/public
+          mv build ../backend/public
 
       - name: create backend end file
         run: |
