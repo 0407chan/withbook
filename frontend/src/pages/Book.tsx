@@ -1,7 +1,3 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
-import styled from 'styled-components'
 import {
   DAY_BOOK_BG_COLOR,
   DAY_BOOK_BG_HOVER_COLOR,
@@ -9,10 +5,14 @@ import {
   NIGHT_BOOK_BG_COLOR,
   NIGHT_BOOK_BG_HOVER_COLOR,
   NIGHT_FONT_COLOR
-} from '../../config/day-night-mode'
-import { isDayState } from '../../recoil/day-night'
-import { BookType } from '../../types'
-import { Maybe } from '../utils/Maybe'
+} from '@/config/day-night-mode'
+import { isDayState } from '@/recoil/day-night'
+import { BookType } from '@/types'
+import React, { useEffect, useRef, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import styled from 'styled-components'
+import { Maybe } from '../components/utils/Maybe'
 
 type ContainerProps = {
   image: string
