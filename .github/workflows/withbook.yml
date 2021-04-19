@@ -43,7 +43,7 @@ jobs:
           mv build ../backend
 
       - name: create backend end file
-      - run: |
+        run: |
           cd backend
           touch .env
           echo DATABASE_URL = ${{secrets.DATABASE_URL }} >> .env
