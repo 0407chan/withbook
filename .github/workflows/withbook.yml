@@ -22,9 +22,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-        run: |
-          ls
-
 
       - name: create frontend env file
         run: |
@@ -57,6 +54,7 @@ jobs:
           cat .env
 
       - name: backend install dependencies & build
+        run: |
           cd backend
           npm install
           npm run prisma:generate
