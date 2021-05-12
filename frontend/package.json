@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "BROWSER=none PORT=3000 env-cmd -f .env.development craco start",
+    "dev": "env-cmd -f .env.development craco start",
     "build": "GENERATE_SOURCEMAP=false craco build",
     "start": "react-scripts start",
     "test": "react-scripts test"

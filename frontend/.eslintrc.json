@@ -20,7 +20,12 @@
   },
   "rules": {
     "semi": ["error", "never"],
-
+    "prettier/prettier": [
+      "error",
+      {
+          "endOfLine": "auto"
+      }
+    ],
     "react/jsx-pascal-case": "off",
     "react/prop-types": "off",
     "react/no-danger": "off",

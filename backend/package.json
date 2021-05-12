@@ -8,9 +8,9 @@
     "build": "rm -rf build && cross-env NODE_ENV=production env_config=prod tsc",
     "start": "node build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prisma:introspect":"npx prisma introspect",
-    "prisma:generate":"npx prisma generate",
-    "prisma":"npm run prisma:introspect && npm run prisma:generate"
+    "prisma:introspect": "npx prisma introspect",
+    "prisma:generate": "npx prisma generate",
+    "prisma": "npm run prisma:introspect && npm run prisma:generate"
   },
   "author": "",
   "license": "ISC",
