@@ -1,5 +1,8 @@
 import { deleteBook, fetchBook } from '@/api/book'
 import { addBookmark, fetchAllBookmarks } from '@/api/bookmark'
+import ViewBookMark from '@/components/book-page/BookDetailSection/ViewBookMark'
+import BookMark from '@/components/book-page/BookMarkSection/BookMark'
+import { Maybe } from '@/components/utils/Maybe'
 import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '@/config/day-night-mode'
 import {
   bookMarkListState,
@@ -14,9 +17,6 @@ import React, { useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { Maybe } from '../utils/Maybe'
-import BookMark from './bookMark'
-import ViewBookMark from './viewBookMark'
 
 type ContainerProps = {
   isDay: boolean
@@ -83,7 +83,7 @@ const Container = styled.div<ContainerProps>`
   }
 `
 
-const ViewBook: React.FC = () => {
+const BookPage: React.FC = () => {
   const history = useHistory()
   const isDay = useRecoilValue(isDayState)
   const [bookmarks, setBookmarks] = useRecoilState<BookmarkType[]>(
@@ -164,4 +164,4 @@ const ViewBook: React.FC = () => {
   )
 }
 
-export default ViewBook
+export default BookPage
