@@ -1,3 +1,4 @@
+import { Maybe } from '@/components/utils/Maybe'
 import {
   DAY_BOOK_BG_COLOR,
   DAY_BOOK_BG_HOVER_COLOR,
@@ -12,7 +13,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import { Maybe } from '../components/utils/Maybe'
 
 type ContainerProps = {
   image: string
@@ -94,7 +94,7 @@ const IMG_CONFIG = [
 type Props = {
   book: BookType
 }
-const Book: React.FC<Props> = ({ book }) => {
+const BookCard: React.FC<Props> = ({ book }) => {
   const router = useHistory()
   const isDay = useRecoilValue(isDayState)
   // const [bookList, setBookList] = useRecoilState<BookType[]>(bookListState)
@@ -157,4 +157,4 @@ const Book: React.FC<Props> = ({ book }) => {
     </Container>
   )
 }
-export default Book
+export default BookCard

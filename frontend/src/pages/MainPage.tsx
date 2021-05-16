@@ -2,6 +2,7 @@ import { fetchAllBooks } from '@/api/book'
 import AddBookButton from '@/common/AddBookButton'
 import Modal from '@/common/Modal'
 import AddBookModal from '@/common/modals/addBookModal'
+import BookCard from '@/components/main-page/BookCard'
 import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '@/config/day-night-mode'
 import { isDayState } from '@/recoil/day-night'
 import type { BookType } from '@/types'
@@ -9,7 +10,6 @@ import { Space } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
-import Book from './Book'
 type ContainerProps = {
   isDay: boolean
 }
@@ -36,7 +36,7 @@ const Container = styled.div<ContainerProps>`
   }
 `
 
-const Home: React.FC = () => {
+const MainPage: React.FC = () => {
   const isDay = useRecoilValue(isDayState)
   const [bookList, setBookList] = useState<BookType[]>([])
 
@@ -64,7 +64,7 @@ const Home: React.FC = () => {
         }}
       >
         {bookList.map((book) => (
-          <Book key={book.id} book={book} />
+          <BookCard key={book.id} book={book} />
         ))}
       </Space>
 
@@ -74,4 +74,4 @@ const Home: React.FC = () => {
   )
 }
 
-export default Home
+export default MainPage
