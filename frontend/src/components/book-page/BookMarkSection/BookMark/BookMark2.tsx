@@ -1,62 +1,65 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const ribbonWidth = 30
+
 const Container = styled.div`
   .bookmark-wrapper2 {
+    margin: 10px 10px;
     height: 198px;
     width: 310px;
     position: relative;
   }
-  .bookmark {
-    opacity: 0.99;
+  .bookmark-front {
     height: 188px;
     width: 300px;
-    left: 10px;
-    top: 10px;
-    position: relative;
-    background-color: #eeeeee;
+    left: 5px;
+    top: 5px;
+    position: absolute;
+    background-color: #232132;
+    box-shadow: 1px 1px 6px rgba(255, 255, 255, 0.1);
+    z-index: 1;
   }
-  .bookmark:before {
+
+  .bookmark-back {
     content: '';
     height: 188px;
     width: 300px;
     position: absolute;
-    background-color: #b92020;
-    left: -10px;
-    top: -10px;
+    background-color: #ffffff;
+    box-shadow: -1px -1px 6px rgba(255, 255, 255, 0.5);
   }
 
   .ribbon {
-    width: 60px;
+    width: ${ribbonWidth}px;
     padding: 10px 0;
     position: absolute;
-    top: -6px;
     left: 25px;
-    text-align: center;
-    border-top-left-radius: 3px;
-    background: #f47530;
+    background: #eeeeee;
+    z-index: 2;
   }
-  .ribbon:before {
-    height: 0;
-    width: 0;
-    right: -5.5px;
-    top: 0.1px;
-    border-bottom: 6px solid #8d5a20;
-    border-right: 6px solid transparent;
-  }
-  .ribbon:before,
+
   .ribbon:after {
     content: '';
     position: absolute;
-  }
-  .ribbon:after {
     height: 0;
     width: 0;
-    bottom: -29.5px;
+    bottom: -15px;
     left: 0;
-    border-left: 30px solid #f47530;
-    border-right: 30px solid #f47530;
-    border-bottom: 30px solid transparent;
+    border-left: ${ribbonWidth / 2}px solid #eeeeee;
+    border-right: ${ribbonWidth / 2}px solid #eeeeee;
+    border-bottom: ${ribbonWidth / 2}px solid transparent;
+  }
+
+  .bookmark-content {
+    width: 100%;
+    height: 100%;
+    padding: 60px 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    color: #eeeeee;
+    font-size: 17px;
   }
 `
 
@@ -64,10 +67,13 @@ const BookMark2: React.FC = () => {
   return (
     <Container>
       <div className="bookmark-wrapper2">
-        <div className="bookmark">
+        <div className="bookmark-front">
           <span className="ribbon"></span>
-          asdfasdf
+          <div className="bookmark-content">
+            꽃이 진다고 그대를 잊은 적 없다.
+          </div>
         </div>
+        <div className="bookmark-back"></div>
       </div>
     </Container>
   )
