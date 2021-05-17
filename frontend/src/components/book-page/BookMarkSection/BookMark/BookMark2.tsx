@@ -1,4 +1,7 @@
+import { currentBookMarkState, currentBookState } from '@/recoil/book'
+import { BookmarkType } from '@/types/bookmark'
 import React from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components'
 
 const ribbonWidth = 30
@@ -74,14 +77,23 @@ const Container = styled.div`
     transition: all 0.2s ease;
   }
 `
+type Props = {
+  bookmark: BookmarkType
+}
 
-const BookMark2: React.FC = () => {
+const BookMark2: React.FC<Props> = ({ bookmark }) => {
+  const currentBook = useRecoilValue(currentBookState)
+  const [currentBookMark, setCurrentBookMark] = useRecoilState(
+    currentBookMarkState
+  )
   return (
     <Container>
       <div className="bookmark">
         <div className="front">
           <span className="ribbon"></span>
-          <div className="content">꽃이 진다고 그대를 잊은 적 없다.</div>
+          <div className="content">
+            {bookmark.title} 디자인 어떡하징..ㅠㅠㅠ
+          </div>
         </div>
         <div className="back"></div>
       </div>
