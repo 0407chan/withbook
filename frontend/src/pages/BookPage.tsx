@@ -1,6 +1,6 @@
 import { deleteBook, fetchBook } from '@/api/book'
 import { addBookmark, fetchAllBookmarks } from '@/api/bookmark'
-import ViewBookMark from '@/components/book-page/BookDetailSection/ViewBookMark'
+import BookMarkSection from '@/components/book-page/BookMarkSection'
 import BookMark from '@/components/book-page/BookMarkSection/BookMark'
 import { Maybe } from '@/components/utils/Maybe'
 import { DAY_BG_COLOR, NIGHT_BG_COLOR } from '@/config/day-night-mode'
@@ -157,9 +157,8 @@ const BookPage: React.FC = () => {
         <div className="bookmark-add-button" onClick={() => bookmarkAdd()}>
           +
         </div>
+        <BookMarkSection></BookMarkSection>
       </div>
-
-      <ViewBookMark />
     </Container>
   )
 }
